@@ -1,5 +1,5 @@
 resource snowflake_user sys_loader {
-    provider = useradmin
+    provider = snowflake.useradmin
     for_each = var.snowflake_data_loader
     name = "SYS_LOADER_${each.key}"
     login_name = "SYS_LOADER_${each.key}"
@@ -9,7 +9,7 @@ resource snowflake_user sys_loader {
 }
 
 resource snowflake_user sys_dbt_user {
-    provider = useradmin
+    provider = snowflake.useradmin
     count = var.snowflake_dbt_enabled ? 1 : 0
     name = "SYS_DBT_${var.project_name}"
     login_name = "SYS_DBT_${var.project_name}"
@@ -20,7 +20,7 @@ resource snowflake_user sys_dbt_user {
 
 
 resource snowflake_user sys_prefect_user {
-    provider = useradmin
+    provider = snowflake.useradmin
     count = var.snowflake_prefect_enabled ? 1 : 0
     name = "SYS_PREFECT_${var.project_name}"
     login_name = "SYS_PREFECT_${var.project_name}"
@@ -31,7 +31,7 @@ resource snowflake_user sys_prefect_user {
 
 
 resource snowflake_user sys_powerbi_user {
-    provider = useradmin
+    provider = snowflake.useradmin
     count = var.snowflake_powerbi_enabled ? 1 : 0
     name = "SYS_POWERBI_${var.project_name}"
     login_name = "SYS_POWERBI_${var.project_name}"
