@@ -36,7 +36,7 @@ variable "snowflake_export_databases" {
 
 
 variable "snowflake_data_loader" {
-  type = list(objecti({
+  type = list(object({
     source = string
     size = string
     }
@@ -49,7 +49,7 @@ variable "snowflake_data_loader" {
 }
 
 variable "snowflake_warehouse" {
-  type = list(objecti({
+  type = list(object({
     name = string
     size = string
     }
