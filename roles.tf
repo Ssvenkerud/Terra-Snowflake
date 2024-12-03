@@ -20,7 +20,7 @@ resource "snowflake_role" "sso_data_engineer" {
 resource "snowflake_role" "sso_data_analyst" {
     provider = snowflake.useradmin
     count = var.snowflake_sso_integration ? 1:0
-    name = "DATA_ANALYST_${var.project_name}"
+    name = "DATA_READER_${var.project_name}"
 }
 
 resource "snowflake_role" "non_sso_data_engineer" {
@@ -32,7 +32,7 @@ resource "snowflake_role" "non_sso_data_engineer" {
 resource "snowflake_role" "non_sso_data_analyst" {
     provider = snowflake.useradmin
     count = var.snowflake_sso_integration ? 0:1
-    name = "DATA_ANALYST_${var.project_name}"
+    name = "DATA_READER_${var.project_name}"
 }
 
 resource "snowflake_role" "Powerbi_role" {
