@@ -46,3 +46,10 @@ resource "snowflake_role" "extra_roles" {
   for_each = toset(var.snowflake_additional_roles)
   name = each.key
 }
+
+resource "snowflake_role" "ar_db_read" {
+  provider = snowflake.sysadmin
+  for_each = concat(var.snowflake_delivery_databases,
+  var.snowflake_prod_source_databases)
+  name = "AR_DB_${each.key}_R"
+}
