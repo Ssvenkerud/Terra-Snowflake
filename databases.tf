@@ -6,7 +6,7 @@ resource "snowflake_database" "default_database" {
     }
 
 
-resource "snowlake_database" "prod_source_database"{
+resource "snowflake_database" "prod_source_database"{
     provider = snowflake.sysadmin
     for_each = var.snowflake_prod_source_databases
     name = "SOURCE_${each.value.source}"
@@ -14,7 +14,7 @@ resource "snowlake_database" "prod_source_database"{
     data_retention_time_in_days = each.value.data_retention_days
     }
 
-resource "snowlake_database" "dev_source_database"{
+resource "snowflake_database" "dev_source_database"{
     provider = snowflake.sysadmin
     for_each = var.snowflake_dev_source_databases
     name = "DEV_SOURCE_${each.value.source}"
