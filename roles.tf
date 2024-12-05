@@ -60,27 +60,33 @@ resource "snowflake_account_role" "extra_roles" {
 ## AR roles for databases ##
 #############################
 
+locals {
+ all_prod_databases = merge(var.snowflake_delivery_databases,var.snowflake_prod_source_databases)
+ all_dev_databases = merge(var.snowflake_delivery_databases,var.snowflake_dev_source_databases)
+
+}
+
 resource "snowflake_account_role" "ar_db_read" {
   provider = snowflake.useradmin
-  for_each = concat(var.snowflake_delivery_databases,var.snowflake_prod_source_databases)
+  for_each = {for db in locals.all_prod_databases : db.name => db}
   name = "AR_DB_${each.key}_R"
 }
 
 resource "snowflake_account_role" "ar_db_write" {
   provider = snowflake.useradmin
-  for_each = concat(var.snowflake_delivery_databases,var.snowflake_prod_source_databases)
+  for_each = {for db in locals.all_prod_databases : db.name => db}
   name = "AR_DB_${each.key}_W"
 }
 
 resource "snowflake_account_role" "dev_ar_db_read" {
   provider = snowflake.useradmin
-  for_each = concat(var.snowflake_delivery_databases,var.snowflake_prod_source_databases)
+  for_each = {for db in locals.all_dev_databases : db.name => db}
   name = "DEV_AR_DB_${each.key}_R"
 }
 
 resource "snowflake_account_role" "dev_ar_db_write" {
   provider = snowflake.useradmin
-  for_each = concat(var.snowflake_delivery_databases,var.snowflake_prod_source_databases)
+  for_each = {for db in locals.all_dev_databases : db.name => db}
   name = "DEV_AR_DB_${each.key}_W"
 }
 

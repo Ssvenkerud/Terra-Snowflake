@@ -35,7 +35,7 @@ variable "default_dds_retention_time" {
 }
 variable "snowflake_prod_source_databases" {
   type = list(object({
-    source = string
+    name = string
     data_retention_days = string
     delete_protection = bool
   }))
@@ -44,7 +44,7 @@ variable "snowflake_prod_source_databases" {
 
 variable "snowflake_dev_source_databases" {
   type = list(object({
-    source = string
+    name = string
     data_retention_days = string
     delete_protection = bool
 

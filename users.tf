@@ -22,8 +22,6 @@ resource snowflake_user sys_dbt_user {
     password = ""
     must_change_password = false
     comment = "system user for data loading"
-    default_warehouse ="LOADING_DATA_${each.value.source}"
-    default_role = "LOADER_${each.value.source}"
     #abort_detached_query = true
     #client_session_keep_alive = false
     #disable_mfa = true
@@ -37,8 +35,6 @@ resource snowflake_user sys_powerbi_user {
     password = ""
     must_change_password = false
     comment = "system user for data loading"
-    default_warehouse ="LOADING_DATA_${each.value.source}"
-    default_role = "LOADER_${each.value.source}"
     #abort_detached_query = true
     #client_session_keep_alive = false
     #disable_mfa = true
