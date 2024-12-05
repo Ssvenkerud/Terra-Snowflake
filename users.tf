@@ -1,4 +1,4 @@
-resource snowflake_user sys_loader {
+resource snowflake_service_user sys_loader {
     provider = snowflake.useradmin
     for_each ={ for user in var.snowflake_data_loader : user.source => user }
     name = "SYS_LOADER_${each.value.source}"
@@ -14,7 +14,7 @@ resource snowflake_user sys_loader {
     #query_tag = "DATA_LOADER"
 }
 
-resource snowflake_user sys_dbt_user {
+resource snowflake_service_user sys_dbt_user {
     provider = snowflake.useradmin
     count = var.snowflake_dbt_enabled ? 1 : 0
     name = "SYS_DBT_${var.project_name}"
@@ -27,7 +27,7 @@ resource snowflake_user sys_dbt_user {
     #disable_mfa = true
     #query_tag = "DATA_LOADER"
 }
-resource snowflake_user sys_powerbi_user {
+resource snowflake_service_user sys_powerbi_user {
     provider = snowflake.useradmin
     count = var.snowflake_powerbi_enabled ? 1 : 0
     name = "SYS_POWERBI_${var.project_name}"
@@ -41,7 +41,7 @@ resource snowflake_user sys_powerbi_user {
     #query_tag = "DATA_LOADER"
 }
 
-resource snowflake_user sys_permifrost_user {
+resource snowflake_service_user sys_permifrost_user {
     provider = snowflake.useradmin
     count = var.snowflake_permifrost_enabled ? 1 : 0
     name = "SYS_PERMIFROST"
