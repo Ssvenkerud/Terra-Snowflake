@@ -68,25 +68,25 @@ locals {
 
 resource "snowflake_account_role" "ar_db_read" {
   provider = snowflake.useradmin
-  for_each = {for db in locals.all_prod_databases : db.name => db}
+  for_each = {for db in local.all_prod_databases : db.name => db}
   name = "AR_DB_${each.key}_R"
 }
 
 resource "snowflake_account_role" "ar_db_write" {
   provider = snowflake.useradmin
-  for_each = {for db in locals.all_prod_databases : db.name => db}
+  for_each = {for db in local.all_prod_databases : db.name => db}
   name = "AR_DB_${each.key}_W"
 }
 
 resource "snowflake_account_role" "dev_ar_db_read" {
   provider = snowflake.useradmin
-  for_each = {for db in locals.all_dev_databases : db.name => db}
+  for_each = {for db in local.all_dev_databases : db.name => db}
   name = "DEV_AR_DB_${each.key}_R"
 }
 
 resource "snowflake_account_role" "dev_ar_db_write" {
   provider = snowflake.useradmin
-  for_each = {for db in locals.all_dev_databases : db.name => db}
+  for_each = {for db in local.all_dev_databases : db.name => db}
   name = "DEV_AR_DB_${each.key}_W"
 }
 
