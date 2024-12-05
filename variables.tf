@@ -111,7 +111,7 @@ variable "snowflake_extra_warehouses" {
 }
 
 variable "snowflake_additional_roles" {
-    type = list()
+    type = list(string)
     default = []
 }
 
