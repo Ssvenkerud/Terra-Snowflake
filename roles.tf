@@ -105,6 +105,6 @@ resource "snowflake_database_role" "loader_role" {
     provider = snowflake.useradmin
     for_each = { for db in var.snowflake_prod_source_databases : db.name => db }
     name = "LOADER_${each.value.name}"
-    database = snowflake_database.prod_source_database[each.value.name]
+    database = snowflake_database.prod_source_database[each.value.name].fully_qualified_name
     comment = "role for dataloaders"
 }
