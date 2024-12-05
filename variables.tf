@@ -25,6 +25,7 @@ variable "snowflake_permifrost_enabled" {
   default = false
 }
 variable "snowflake_sso_integration" {
+  type = list(string)
   default = []
 }
 
@@ -37,7 +38,6 @@ variable "snowflake_prod_source_databases" {
   type = list(object({
     name = string
     data_retention_days = string
-    delete_protection = bool
   }))
   default = []
 }
@@ -46,7 +46,6 @@ variable "snowflake_dev_source_databases" {
   type = list(object({
     name = string
     data_retention_days = string
-    delete_protection = bool
 
   }))
   default = []
@@ -56,7 +55,6 @@ variable "snowflake_delivery_databases" {
   type = list(object({
     name = string
     data_retention_days = string
-    delete_protection = bool
 
   }))
   default = []
