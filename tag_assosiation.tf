@@ -1,6 +1,6 @@
 resource "snowflake_tag_association" "db_association" {
   provider = snowflake.sysadmin
-  for_each = snowflake_database.prod_source_database[*]
+  for_each = tolist(snowflake_database.prod_source_database[*].fully_qualified_name)
 
   object_identifier {
     name = each.key
