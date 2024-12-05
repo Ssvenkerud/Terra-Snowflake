@@ -104,7 +104,7 @@ resource "snowflake_account_role" "ar_schema_read" {
 resource "snowflake_database_role" "loader_role" {
     provider = snowflake.useradmin
     for_each = { for db in var.snowflake_prod_source_databases : db.source => db }
-    name = "LOADER_${each.value.source}"
+    name = "LOADER_${each.value.name}"
     database = snowflake_database.prod_source_database[each.value.source]
     comment = "role for dataloaders"
 }

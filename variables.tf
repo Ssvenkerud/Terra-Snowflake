@@ -25,8 +25,8 @@ variable "snowflake_permifrost_enabled" {
   default = false
 }
 variable "snowflake_sso_integration" {
-  type = list(string)
-  default = []
+  type = bool
+  default = false 
 }
 
 
@@ -104,6 +104,7 @@ variable "snowflake_extra_warehouses" {
     max_cluster_count = number
     min_cluster_count = number
     max_concurrency_level = number
+    scaling_policy = string
   }))
   default = [] 
 }
