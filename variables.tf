@@ -37,7 +37,7 @@ variable "snowflake_prod_source_databases" {
   type = list(object({
     source = string
     data_retention_days = string
-    delete_protection = true
+    delete_protection = bool
   }))
   default = []
 }
@@ -46,7 +46,7 @@ variable "snowflake_dev_source_databases" {
   type = list(object({
     source = string
     data_retention_days = string
-    delete_protection = true
+    delete_protection = bool
 
   }))
   default = []
@@ -56,7 +56,7 @@ variable "snowflake_delivery_databases" {
   type = list(object({
     name = string
     data_retention_days = string
-    delete_protection = true
+    delete_protection = bool
 
   }))
   default = []
