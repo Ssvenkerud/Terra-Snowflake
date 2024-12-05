@@ -14,17 +14,6 @@ resource "snowflake_warehouse" "default_loading_warehouse" {
     enable_query_acceleration = false
 }
 
-variable "snowflake_data_loader" { 
- type = list(object({
-    source = string
-    size = string
-    auto_suspend = number
-    max_cluster_count = number
-    min_cluster_count = number
-    max_concurrency_level = number
-  }))
-  default = [] 
-}
 
 resource "snowflake_warehouse" "default_prod_transformer" {
     provider = snowflake.sysadmin
