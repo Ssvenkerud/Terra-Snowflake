@@ -13,7 +13,7 @@ resource "snowflake_database" "prod_source_database"{
     comment = "Production source database"
     data_retention_time_in_days = each.value.data_retention_days
     lifecycle {
-    prevent_destroy = each.value.delete_protection
+    prevent_destroy = false 
   }
     }
 
@@ -23,10 +23,6 @@ resource "snowflake_database" "dev_source_database"{
     name = "DEV_SOURCE_${each.value.name}"
     comment = "development source database"
     data_retention_time_in_days = each.value.data_retention_days
-    lifecycle {
-    prevent_destroy =  each.value.delete_protection
-
-  }
     }
 
 resource "snowflake_database" "delivery_database" {
@@ -35,8 +31,4 @@ resource "snowflake_database" "delivery_database" {
     name = "DDS_${each.value.name}"
     comment = "delivery database"
     data_retention_time_in_days = each.value.data_retention_days
-    lifecycle {
-    prevent_destroy =  each.value.delete_protection
-
-  }
     }
