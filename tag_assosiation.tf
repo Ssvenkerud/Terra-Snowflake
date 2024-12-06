@@ -49,7 +49,7 @@ resource "snowflake_tag_association" "delivery_db_association" {
 }
 ###
 
-resource "snowflake_tag_association" "delivery_db_association" {
+resource "snowflake_tag_association" "loading_warehouse_association" {
   provider = snowflake.sysadmin
 
   for_each =  { for wh in var.snowflake_data_loader : wh.source => wh }
@@ -63,7 +63,7 @@ resource "snowflake_tag_association" "delivery_db_association" {
 }
 
 
-resource "snowflake_tag_association" "delivery_db_association" {
+resource "snowflake_tag_association" "prod_transformer_association" {
   provider = snowflake.sysadmin
 
   for_each =  { for wh in var.snowflake_prod_transformer : wh.name => wh }
@@ -77,7 +77,7 @@ resource "snowflake_tag_association" "delivery_db_association" {
 }
 
 
-resource "snowflake_tag_association" "delivery_db_association" {
+resource "snowflake_tag_association" "dev_transformer_association" {
   provider = snowflake.sysadmin
 
   for_each = { for wh in var.snowflake_dev_transformer : wh.name => wh }
@@ -91,7 +91,7 @@ resource "snowflake_tag_association" "delivery_db_association" {
 }
 
 
-resource "snowflake_tag_association" "delivery_db_association" {
+resource "snowflake_tag_association" "extra_warehouses_association" {
   provider = snowflake.sysadmin
 
   for_each =  { for wh in var.snowflake_extra_warehouses : wh.name => wh }
