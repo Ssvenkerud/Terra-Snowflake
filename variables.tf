@@ -2,6 +2,19 @@ variable "project_name" {
   default = "my-project"
 } 
 
+variable "project_credit_quota" {
+  type = number
+  default = 3000
+  }
+
+variable "project_dev_credit_quota" {
+  type = number
+  default = 3000
+  }
+variable "notify_user" {
+  type = string
+  default = ""
+}
 variable "snowflake_dbt_enabled" {
   type = bool
 
@@ -67,6 +80,7 @@ variable "snowflake_data_loader" {
     max_cluster_count = number
     min_cluster_count = number
     max_concurrency_level = number
+    quota = number
   }))
   default = [] 
 }
