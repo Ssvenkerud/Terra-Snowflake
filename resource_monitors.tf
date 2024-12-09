@@ -5,7 +5,7 @@ name = "PROJECT_MONITOR_${var.project_name}"
 credit_quota = var.project_credit_quota
 frequency = "MONTHLY"
 
-start_timestamp = "2024-12-01 00:00"
+start_timestamp = var.monitor_start
 
 notify_users = var.notify_user
 
@@ -19,7 +19,7 @@ name = "PROJECT_MONITOR_DEV_${var.project_name}"
 credit_quota = var.project_dev_credit_quota
 frequency = "MONTHLY"
 
-start_timestamp = "2024-12-01 00:00"
+start_timestamp = var.monitor_start
 
 notify_users =var.notify_user
 
@@ -34,7 +34,7 @@ provider = snowflake.accountadmin
   credit_quota = each.value.quota
   frequency = "MONTHLY"
 
-  start_timestamp = "2024-12-01 00:00"
+  start_timestamp = var.monitor_start
 
 }
 
