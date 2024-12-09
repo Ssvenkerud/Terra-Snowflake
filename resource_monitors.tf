@@ -6,7 +6,8 @@ frequency = "MONTHLY"
 
 start_timestamp = "2024-12-01 00:00"
 
-notify_users = var.notify_user
+notify_users = "${var.notify_user}"
+
 
 notify_triggers = [50, 75, 100]
 }
@@ -18,7 +19,7 @@ frequency = "MONTHLY"
 
 start_timestamp = "2024-12-01 00:00"
 
-notify_users = var.notify_user
+notify_users ="${var.notify_user}"
 
 notify_triggers = [50, 75]
 suspend_trigger = 100
