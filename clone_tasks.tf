@@ -8,16 +8,12 @@ for_each = { for db in var.snowflake_prod_source_databases : db.name => db}
   warehouse = snowflake_warehouse.sys_warehouse.id
 
   name          = "Clone ${each.value.name} to Dev enviroment"
-  schedule      = "10 MINUTE"
-  sql_statement = "CREATE OR REPLACE DATABASE target CLONE source;"
-
-  session_parameters = {
-    "source" : "${snowflake_database.prod_source_database[each.key].name}",
-    "target" : "DEV_SOURCE${each.value.name}"
+  schedule {
+    minutes = 5
   }
+  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE${each.value.name} CLONE ${snowflake_database.prod_source_database[each.key].name};"
+  task_auto_retry_attempts = 3
+  statement_timeout_in_seconds = 360
 
-  user_task_timeout_ms = 10000
-  after                = "preceding_task"
-  when                 = "foo AND bar"
-  enabled              = true
+  }
 }
