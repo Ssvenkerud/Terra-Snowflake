@@ -7,6 +7,7 @@ resource "snowflake_warehouse" "default_loading_warehouse" {
     max_cluster_count = each.value.max_cluster_count
     min_cluster_count = each.value.min_cluster_count
     max_concurrency_level = each.value.max_concurrency_level
+    resource_monitor = "MONITOR_LOADER_${each.value.source}"
     scaling_policy = "ECONOMY"
     initially_suspended = true
     warehouse_type = "STANDARD" 
@@ -16,7 +17,7 @@ resource "snowflake_warehouse" "default_loading_warehouse" {
 
 
 resource "snowflake_warehouse" "default_prod_transformer" {
-    provider = snowflake.sysadmin
+    provider = snowflake.accountadmin
     for_each = { for wh in var.snowflake_prod_transformer : wh.name => wh }
     name = "TRANSFORMER_${each.value.name}"
     warehouse_size = each.value.size
@@ -24,7 +25,7 @@ resource "snowflake_warehouse" "default_prod_transformer" {
     max_cluster_count = each.value.max_cluster_count
     min_cluster_count = each.value.min_cluster_count
     max_concurrency_level = each.value.max_concurrency_level
-    resource_monitor = "PROJECT_MONITOR_${var.project_name}"
+    resource_monitor = "MONITOR_${var.project_name}"
     scaling_policy = "ECONOMY"
     initially_suspended = true
     warehouse_type = "STANDARD" 
@@ -33,7 +34,7 @@ resource "snowflake_warehouse" "default_prod_transformer" {
 }
 
 resource "snowflake_warehouse" "default_dev_transformer" {
-  provider = snowflake.sysadmin
+  provider = snowflake.accountadmin
     for_each = { for wh in var.snowflake_dev_transformer : wh.name => wh }
     name = "DEV_TRANSFORMER_${each.value.name}"
     warehouse_size = each.value.size
@@ -41,7 +42,7 @@ resource "snowflake_warehouse" "default_dev_transformer" {
     max_cluster_count = each.value.max_cluster_count
     min_cluster_count = each.value.min_cluster_count
     max_concurrency_level = each.value.max_concurrency_level
-    resource_monitor = "PROJECT_MONITOR__DEV_${var.project_name}"
+    resource_monitor = "MONITOR__DEV_${var.project_name}"
     scaling_policy = "ECONOMY"
     initially_suspended = true
     warehouse_type = "STANDARD" 
