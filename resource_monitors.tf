@@ -1,21 +1,19 @@
 
 resource "snowflake_resource_monitor" "Snowflake_project_monitor" {
 name = "PROJECT_MONITOR_${var.project_name}"
-credit_quota = var.project_credit_quata
+credit_quota = var.project_credit_quota
 frequency = "MONTHLY"
 
 start_timestamp = "2024-12-01 00:00"
 
 notify_users = var.notify_user
 
-notify_triggers = [50, 75]
-suspend_trigger = 90
-suspend_immediate_trigger = 100
+notify_triggers = [50, 75, 100]
 }
  
 resource "snowflake_resource_monitor" "Snowflake_project_dev_monitor" {
 name = "PROJECT_MONITOR_DEV_${var.project_name}"
-credit_quota = var.project_dev_credit_quata
+credit_quota = var.project_dev_credit_quota
 frequency = "MONTHLY"
 
 start_timestamp = "2024-12-01 00:00"
@@ -23,8 +21,8 @@ start_timestamp = "2024-12-01 00:00"
 notify_users = var.notify_user
 
 notify_triggers = [50, 75]
-suspend_trigger = 90
-suspend_immediate_trigger = 100
+suspend_trigger = 100
+suspend_immediate_trigger = 110
 }
 resource "snowflake_resource_monitor" "snowflake_loader_monitor" {
   for_each = { for wh in var.snowflake_data_loader : wh.source => wh }
