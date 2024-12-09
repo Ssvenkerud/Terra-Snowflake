@@ -15,6 +15,13 @@ variable "notify_user" {
   type = list(string)
   default = [""]
 }
+
+variable "monitor_start" {
+  type = string
+  default = "2024-12-01 00:00"
+}
+
+
 variable "snowflake_dbt_enabled" {
   type = bool
 
