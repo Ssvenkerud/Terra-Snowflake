@@ -17,7 +17,7 @@ resource "snowflake_warehouse" "default_loading_warehouse" {
 
 
 resource "snowflake_warehouse" "default_prod_transformer" {
-    provider = snowflake.accountadmin
+    provider = snowflake.sysadmin
     for_each = { for wh in var.snowflake_prod_transformer : wh.name => wh }
     name = "TRANSFORMER_${each.value.name}"
     warehouse_size = each.value.size
@@ -34,7 +34,7 @@ resource "snowflake_warehouse" "default_prod_transformer" {
 }
 
 resource "snowflake_warehouse" "default_dev_transformer" {
-  provider = snowflake.accountadmin
+  provider = snowflake.sysadmin
     for_each = { for wh in var.snowflake_dev_transformer : wh.name => wh }
     name = "DEV_TRANSFORMER_${each.value.name}"
     warehouse_size = each.value.size
