@@ -5,6 +5,8 @@ resource "snowflake_task" "Clone_prod_source" {
 
   comment = "Clone dev data from prod databases"
 
+  started = true
+
   database  = snowflake_database.prod_source_database[each.key].name
   schema    = "PUBLIC"
   warehouse = snowflake_warehouse.sys_warehouse.id
