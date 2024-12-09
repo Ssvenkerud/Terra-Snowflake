@@ -7,7 +7,7 @@ resource "snowflake_warehouse" "default_loading_warehouse" {
     max_cluster_count = each.value.max_cluster_count
     min_cluster_count = each.value.min_cluster_count
     max_concurrency_level = each.value.max_concurrency_level
-    #resource_monitor = "MONITOR_LOADER_${each.value.source}"
+    resource_monitor = "MONITOR_LOADER_${each.value.source}"
     scaling_policy = "ECONOMY"
     initially_suspended = true
     warehouse_type = "STANDARD" 
@@ -26,7 +26,7 @@ resource "snowflake_warehouse" "default_prod_transformer" {
     max_cluster_count = each.value.max_cluster_count
     min_cluster_count = each.value.min_cluster_count
     max_concurrency_level = each.value.max_concurrency_level
-    #resource_monitor = "MONITOR_${var.project_name}"
+    resource_monitor = "MONITOR_${var.project_name}"
     scaling_policy = "ECONOMY"
     initially_suspended = true
     warehouse_type = "STANDARD" 
@@ -44,7 +44,7 @@ resource "snowflake_warehouse" "default_dev_transformer" {
     max_cluster_count = each.value.max_cluster_count
     min_cluster_count = each.value.min_cluster_count
     max_concurrency_level = each.value.max_concurrency_level
-    #resource_monitor = "MONITOR__DEV_${var.project_name}"
+    resource_monitor = "MONITOR__DEV_${var.project_name}"
     scaling_policy = "ECONOMY"
     initially_suspended = true
     warehouse_type = "STANDARD" 
