@@ -13,6 +13,7 @@ resource "snowflake_warehouse" "default_loading_warehouse" {
     warehouse_type = "STANDARD" 
     auto_resume = true
     enable_query_acceleration = false
+    depends_on = [snowflake_resource_monitor.snowflake_loader_monitor]
 }
 
 
@@ -31,6 +32,7 @@ resource "snowflake_warehouse" "default_prod_transformer" {
     warehouse_type = "STANDARD" 
     auto_resume = true
     enable_query_acceleration = false
+    depends_on = [ snowflake_resource_monitor.Snowflake_project_monitor ]
 }
 
 resource "snowflake_warehouse" "default_dev_transformer" {
@@ -48,6 +50,7 @@ resource "snowflake_warehouse" "default_dev_transformer" {
     warehouse_type = "STANDARD" 
     auto_resume = true
     enable_query_acceleration = false 
+    depends_on = [ snowflake_resource_monitor.Snowflake_project_dev_monitor ]
  
 }
 

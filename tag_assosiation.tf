@@ -46,6 +46,7 @@ resource "snowflake_tag_association" "delivery_db_association" {
   object_type = "DATABASE"
   tag_id      = snowflake_tag.billing_tag.id
   tag_value   = var.project_name
+  depends_on = [snowflake_tag.billing_tag]
 }
 ###
 
@@ -60,6 +61,7 @@ resource "snowflake_tag_association" "loading_warehouse_association" {
   object_type = "WAREHOUSE"
   tag_id      = snowflake_tag.billing_tag.id
   tag_value   = var.project_name
+  depends_on = [snowflake_tag.billing_tag]
 }
 
 
@@ -74,6 +76,7 @@ resource "snowflake_tag_association" "prod_transformer_association" {
   object_type = "WAREHOUSE"
   tag_id      = snowflake_tag.billing_tag.id
   tag_value   = var.project_name
+  depends_on = [snowflake_tag.billing_tag]
 }
 
 
@@ -88,6 +91,7 @@ resource "snowflake_tag_association" "dev_transformer_association" {
   object_type = "WAREHOUSE"
   tag_id      = snowflake_tag.billing_tag.id
   tag_value   = var.project_name
+  depends_on = [snowflake_tag.billing_tag]
 }
 
 
@@ -102,4 +106,5 @@ resource "snowflake_tag_association" "extra_warehouses_association" {
   object_type = "WAREHOUSE"
   tag_id      = snowflake_tag.billing_tag.id
   tag_value   = var.project_name
+  depends_on = [snowflake_tag.billing_tag]
 }

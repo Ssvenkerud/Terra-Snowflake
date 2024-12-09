@@ -4,4 +4,5 @@ resource "snowflake_tag" "billing_tag" {
  schema = "PUBLIC"
  name = "PROJECT"
  comment = "Tag used to ascribe ownership of objects and resoures to projects"
+ depends_on = [ snowflake_database.default_database]
 }
