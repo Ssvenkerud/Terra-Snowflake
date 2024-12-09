@@ -12,8 +12,8 @@ variable "project_dev_credit_quota" {
   default = 3000
   }
 variable "notify_user" {
-  type = string
-  default = ""
+  type = list(string)
+  default = [""]
 }
 variable "snowflake_dbt_enabled" {
   type = bool
