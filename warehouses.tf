@@ -69,18 +69,4 @@ resource "snowflake_warehouse" "exstra_warehouse" {
     auto_resume = true
     enable_query_acceleration = false 
 }
-resource "snowflake_warehouse" "sys_warehouse" {
-    provider = snowflake.sysadmin
-    name = "SYSTEM_${var.project_name}"
-    warehouse_size = "XSMALL"
-    auto_suspend = 60
-    max_cluster_count = 2 
-    min_cluster_count = 1
-    max_concurrency_level = 1 
-    #resource_monitor = "MONITOR_${var.project_name}"# Disabled due to currently requirring account adming for warehouse creation
-    scaling_policy = "ECONOMY"
-    initially_suspended = true
-    warehouse_type = "STANDARD" 
-    auto_resume = true
-    enable_query_acceleration = false
-}
+

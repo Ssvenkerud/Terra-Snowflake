@@ -15,7 +15,7 @@ resource "snowflake_task" "Clone_prod_source" {
   schedule {
     minutes = 5
   }
-  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE${each.value.name} CLONE ${snowflake_database.prod_source_database[each.key].name};"
+  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.name} CLONE ${snowflake_database.prod_source_database[each.key].name};"
   #task_auto_retry_attempts = 3
   #statement_timeout_in_seconds = 360
   #}

@@ -21,6 +21,24 @@ variable "monitor_start" {
   default = "2024-12-01 00:00"
 }
 
+variable "snowflake_admin_setup" {
+  type = bool
+
+  default = false
+}
+
+variable "snowflake_curated_setup" {
+  type = bool
+
+  default = false
+}
+
+variable "snowflake_enterprice_conformed_setup" {
+  type = bool
+
+  default = false
+}
+
 
 variable "snowflake_dbt_enabled" {
   type = bool
