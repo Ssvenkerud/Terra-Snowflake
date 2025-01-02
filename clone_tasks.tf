@@ -9,14 +9,12 @@ resource "snowflake_task" "Clone_prod_source" {
 
   database  = snowflake_database.prod_source_database[each.key].name
   schema    = "PUBLIC"
-  warehouse = snowflake_warehouse.sys_warehouse[1].id
+  warehouse = snowflake_warehouse.sys_warehouse.id
 
   name = "Clone ${each.value.name} to Dev enviroment"
   schedule {
     minutes = 5
   }
   sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.name} CLONE ${snowflake_database.prod_source_database[each.key].name};"
-  #task_auto_retry_attempts = 3
-  #statement_timeout_in_seconds = 360
-  #}
+  depends_on    = [snowflake_warehouse.sys_warehouse]
 }
