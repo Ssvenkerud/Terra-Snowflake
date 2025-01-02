@@ -60,9 +60,12 @@ resource "snowflake_tag" "billing_tag" {
   provider = snowflake.sysadmin
   count    = var.snowflake_admin_setup ? 1 : 0
 
-  database   = "SYSTEM"
-  schema     = "PUBLIC"
-  name       = "PROJECT"
-  comment    = "Tag used to ascribe ownership of objects and resoures to projects"
-  depends_on = [snowflake_database.default_database]
+  database = "SYSTEM"
+  schema   = "PUBLIC"
+  name     = "PROJECT"
+  comment  = "Tag used to ascribe ownership of objects and resoures to projects"
+  depends_on = [
+    snowflake_database.default_database,
+    snowflake_warehouse.sys_warehouse
+  ]
 }

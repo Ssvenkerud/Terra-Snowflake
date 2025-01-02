@@ -10,6 +10,9 @@ resource "snowflake_task" "Source_clone" {
     minutes = 5
   }
   sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.name} CLONE ${snowflake_database.prod_source_database[each.key].name};"
-  depends_on    = [snowflake_warehouse.sys_warehouse]
+  depends_on = [
+    snowflake_warehouse.sys_warehouse,
+    snowflakeprosnowflake_database.prod_source_database
+  ]
 
 }
