@@ -5,7 +5,7 @@ resource "snowflake_tag_association" "dds_db_association" {
     name = "DDS_${var.project_name}"
   }
   object_type = "DATABASE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
 }
 
@@ -18,7 +18,7 @@ resource "snowflake_tag_association" "prod_source_db_association" {
     name = "SOURCE_${each.value.name}"
   }
   object_type = "DATABASE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
 }
 
@@ -31,7 +31,7 @@ resource "snowflake_tag_association" "dev_source_db_association" {
     name = "DEV_SOURCE_${each.value.name}"
   }
   object_type = "DATABASE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
 }
 
@@ -44,39 +44,39 @@ resource "snowflake_tag_association" "delivery_db_association" {
     name = "DDS_${each.value.name}"
   }
   object_type = "DATABASE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
-  depends_on = [snowflake_tag.billing_tag]
+  depends_on  = [snowflake_tag.billing_tag]
 }
 ###
 
 resource "snowflake_tag_association" "loading_warehouse_association" {
   provider = snowflake.sysadmin
 
-  for_each =  { for wh in var.snowflake_data_loader : wh.source => wh }
+  for_each = { for wh in var.snowflake_data_loader : wh.source => wh }
 
   object_identifier {
     name = "LOADING_DATA_${each.value.source}"
   }
   object_type = "WAREHOUSE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
-  depends_on = [snowflake_tag.billing_tag]
+  depends_on  = [snowflake_tag.billing_tag]
 }
 
 
 resource "snowflake_tag_association" "prod_transformer_association" {
   provider = snowflake.sysadmin
 
-  for_each =  { for wh in var.snowflake_prod_transformer : wh.name => wh }
+  for_each = { for wh in var.snowflake_prod_transformer : wh.name => wh }
 
   object_identifier {
     name = "TRANSFORMER_${each.value.name}"
   }
   object_type = "WAREHOUSE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
-  depends_on = [snowflake_tag.billing_tag]
+  depends_on  = [snowflake_tag.billing_tag]
 }
 
 
@@ -89,22 +89,22 @@ resource "snowflake_tag_association" "dev_transformer_association" {
     name = "DEV_TRANSFORMER_${each.value.name}"
   }
   object_type = "WAREHOUSE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
-  depends_on = [snowflake_tag.billing_tag]
+  depends_on  = [snowflake_tag.billing_tag]
 }
 
 
 resource "snowflake_tag_association" "extra_warehouses_association" {
   provider = snowflake.sysadmin
 
-  for_each =  { for wh in var.snowflake_extra_warehouses : wh.name => wh }
+  for_each = { for wh in var.snowflake_extra_warehouses : wh.name => wh }
 
   object_identifier {
-    name = "${each.value.name}"
+    name = each.value.name
   }
   object_type = "WAREHOUSE"
-  tag_id      = snowflake_tag.billing_tag.id
+  tag_id      = snowflake_tag.billing_tag[1].id
   tag_value   = var.project_name
-  depends_on = [snowflake_tag.billing_tag]
+  depends_on  = [snowflake_tag.billing_tag]
 }
