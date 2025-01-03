@@ -36,15 +36,30 @@ resource "snowflake_service_user" "sys_powerbi_user" {
 }
 
 resource "snowflake_service_user" "sys_permifrost_user" {
-  provider       = snowflake.useradmin
-  count          = var.snowflake_permifrost_enabled ? 1 : 0
-  name           = "SYS_PERMIFROST"
-  login_name     = "SYS_PERMIFROST"
-  comment        = "system user for data loading"
-  default_role   = "SECURITYADMIN"
-  rsa_public_key = var.PERMIFROST_KEY
+  provider          = snowflake.useradmin
+  count             = var.snowflake_permifrost_enabled ? 1 : 0
+  name              = "SYS_PERMIFROST"
+  login_name        = "SYS_PERMIFROST"
+  comment           = "system user for data loading"
+  default_role      = "SECURITYADMIN"
+  default_warehouse = "SYSTEM"
+  rsa_public_key    = var.PERMIFROST_KEY
   #abort_detached_query = true
   #client_session_keep_alive = false
   #disable_mfa = true
   #query_tag = "DATA_LOADER"
+}
+resource "snowflake_grant_account_role" "Permifrost_grant" {
+  count = var.snowflake_permifrost_enabled ? 1 : 0
+
+  role_name = "SECURITYADMIN"
+  user_name = snowflake_service_user.sys_permifrost_user.name
+}
+
+resource "snowflake_grant_privileges_to_account_role" "permifrost_varehiuse" {
+  count = var.snowflake_permifrost_enabled ? 1 : 0
+
+  privileges        = ["USAGE CREATE"]
+  account_role_name = "SECURITYADMIN"
+  on_account        = true
 }
