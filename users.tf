@@ -50,7 +50,7 @@ resource "snowflake_service_user" "sys_permifrost_user" {
   #query_tag = "DATA_LOADER"
 }
 resource "snowflake_grant_account_role" "Permifrost_grant" {
-  provider = snowflake.securityadmin
+  provider = snowflake.accountadmin
   count    = var.snowflake_permifrost_enabled ? 1 : 0
 
   role_name = "SECURITYADMIN"
