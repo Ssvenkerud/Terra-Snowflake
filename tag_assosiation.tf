@@ -1,7 +1,7 @@
 resource "snowflake_tag_association" "dds_db_association" {
   provider = snowflake.sysadmin
 
-  object_identifiers = [snowflake_database.default_database.fully_qualified_name]
+  object_identifiers = [snowflake_database.default_database[var.project_name].fully_qualified_name]
   object_type        = "DATABASE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
