@@ -1,3 +1,6 @@
+locals {
+  prod_source = [for source in var.snowflake_prod_source_databases : "SOURCE_${source}"]
+}
 resource "snowflake_tag_association" "dds_db_association" {
   provider = snowflake.sysadmin
 
@@ -12,7 +15,7 @@ resource "snowflake_tag_association" "prod_source_db_association" {
 
   for_each = { for db in var.snowflake_prod_source_databases : db.name => db }
 
-  object_identifiers = [snowflake_database.prod_source_database[each.value.name]]
+  object_identifiers = local.prod_source
   object_type        = "DATABASE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
