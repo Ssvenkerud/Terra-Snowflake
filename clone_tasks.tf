@@ -1,5 +1,5 @@
 resource "snowflake_task" "Source_clone" {
-  provider  = snowflake.accountadmin
+  provider  = snowflake.sysadmin
   for_each  = { for db in var.snowflake_prod_source_databases : db.name => db }
   database  = "SYSTEM"
   schema    = "dev_clones"
@@ -9,7 +9,7 @@ resource "snowflake_task" "Source_clone" {
   schedule {
     minutes = 5
   }
-  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.name} CLONE ${snowflake_database.prod_source_database[each.key].name};"
+  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.name} CLONE SOURCE_${each.value.name};"
   depends_on = [
     snowflake_warehouse.sys_warehouse,
     snowflake_database.prod_source_database
