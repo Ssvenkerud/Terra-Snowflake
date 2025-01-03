@@ -1,5 +1,7 @@
 locals {
-  prod_source = [for source in var.snowflake_prod_source_databases : "SOURCE_${source}"]
+  prod_source        = [for source in var.snowflake_prod_source_databases : "SOURCE_${source}"]
+  dev_source         = [for source in var.snowflake_dev_source_databases : "DEV_SOURCE_${source}"]
+  delivery_databases = [for db in var.var.snowflake_delivery_databases : "DDS_${db}"]
 }
 resource "snowflake_tag_association" "dds_db_association" {
   provider = snowflake.sysadmin
@@ -11,22 +13,19 @@ resource "snowflake_tag_association" "dds_db_association" {
 }
 
 resource "snowflake_tag_association" "prod_source_db_association" {
-  provider = snowflake.sysadmin
-
-  for_each = { for db in var.snowflake_prod_source_databases : db.name => db }
-
+  provider           = snowflake.sysadmin
   object_identifiers = local.prod_source
-  object_type        = "DATABASE"
-  tag_id             = "SYSTEM.PUBLIC.PROJECT"
-  tag_value          = var.project_name
+
+  object_type = "DATABASE"
+  tag_id      = "SYSTEM.PUBLIC.PROJECT"
+  tag_value   = var.project_name
 }
 
 resource "snowflake_tag_association" "dev_source_db_association" {
   provider = snowflake.sysadmin
 
-  for_each = { for db in var.snowflake_dev_source_databases : db.name => db }
 
-  object_identifiers = [snowflake_database.dev_source_database[each.value.name]]
+  object_identifiers = local.dev_source
   object_type        = "DATABASE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
@@ -37,7 +36,7 @@ resource "snowflake_tag_association" "delivery_db_association" {
 
   for_each = { for db in var.snowflake_delivery_databases : db.name => db }
 
-  object_identifiers = [snowflake_database.delivery_database[each.value.name]]
+  object_identifiers = local.delivery_databases
   object_type        = "DATABASE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
