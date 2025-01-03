@@ -1,7 +1,7 @@
 locals {
   prod_source        = [for source in var.snowflake_prod_source_databases : "SOURCE_${source}"]
   dev_source         = [for source in var.snowflake_dev_source_databases : "DEV_SOURCE_${source}"]
-  delivery_databases = [for db in var.var.snowflake_delivery_databases : "DDS_${db}"]
+  delivery_databases = [for db in var.snowflake_delivery_databases : "DDS_${db}"]
 }
 resource "snowflake_tag_association" "dds_db_association" {
   provider = snowflake.sysadmin
