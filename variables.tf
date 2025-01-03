@@ -65,7 +65,6 @@ variable "snowflake_permifrost_enabled" {
 variable "PERMIFROST_KEY" {
   type      = string
   sensitive = true
-  ephemeral = true
 
 }
 variable "snowflake_sso_integration" {
