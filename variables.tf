@@ -1,23 +1,23 @@
 variable "project_name" {
   default = "my-project"
-} 
+}
 
 variable "project_credit_quota" {
-  type = number
+  type    = number
   default = 3000
-  }
+}
 
 variable "project_dev_credit_quota" {
-  type = number
+  type    = number
   default = 3000
-  }
+}
 variable "notify_user" {
-  type = list(string)
+  type    = list(string)
   default = [""]
 }
 
 variable "monitor_start" {
-  type = string
+  type    = string
   default = "2024-12-01 00:00"
 }
 
@@ -62,19 +62,25 @@ variable "snowflake_permifrost_enabled" {
 
   default = false
 }
+variable "PERMIFROST_KEY" {
+  type      = string
+  sensitive = true
+  ephemeral = true
+
+}
 variable "snowflake_sso_integration" {
-  type = bool
-  default = false 
+  type    = bool
+  default = false
 }
 
 
 variable "default_dds_retention_time" {
- description = "The retention time for data within the defaul domain data store"
- type = number 
+  description = "The retention time for data within the defaul domain data store"
+  type        = number
 }
 variable "snowflake_prod_source_databases" {
   type = list(object({
-    name = string
+    name                = string
     data_retention_days = string
   }))
   default = []
@@ -82,7 +88,7 @@ variable "snowflake_prod_source_databases" {
 
 variable "snowflake_dev_source_databases" {
   type = list(object({
-    name = string
+    name                = string
     data_retention_days = string
 
   }))
@@ -91,71 +97,71 @@ variable "snowflake_dev_source_databases" {
 
 variable "snowflake_delivery_databases" {
   type = list(object({
-    name = string
+    name                = string
     data_retention_days = string
 
   }))
   default = []
 }
-variable "snowflake_data_loader" { 
- type = list(object({
-    source = string
-    size = string
-    auto_suspend = number
-    max_cluster_count = number
-    min_cluster_count = number
+variable "snowflake_data_loader" {
+  type = list(object({
+    source                = string
+    size                  = string
+    auto_suspend          = number
+    max_cluster_count     = number
+    min_cluster_count     = number
     max_concurrency_level = number
-    quota = number
+    quota                 = number
   }))
-  default = [] 
+  default = []
 }
 
-variable "snowflake_prod_transformer" { 
- type = list(object({
-    name = string
-    size = string
-    auto_suspend = number
-    max_cluster_count = number
-    min_cluster_count = number
+variable "snowflake_prod_transformer" {
+  type = list(object({
+    name                  = string
+    size                  = string
+    auto_suspend          = number
+    max_cluster_count     = number
+    min_cluster_count     = number
     max_concurrency_level = number
   }))
-  default = [] 
+  default = []
 }
 
-variable "snowflake_dev_transformer" { 
- type = list(object({
-    name = string
-    size = string
-    auto_suspend = number
-    max_cluster_count = number
-    min_cluster_count = number
+variable "snowflake_dev_transformer" {
+  type = list(object({
+    name                  = string
+    size                  = string
+    auto_suspend          = number
+    max_cluster_count     = number
+    min_cluster_count     = number
     max_concurrency_level = number
   }))
-  default = [] 
+  default = []
 }
 
 
-variable "snowflake_extra_warehouses" { 
- type = list(object({
-    name = string
-    size = string
-    auto_suspend = number
-    max_cluster_count = number
-    min_cluster_count = number
+variable "snowflake_extra_warehouses" {
+  type = list(object({
+    name                  = string
+    size                  = string
+    auto_suspend          = number
+    max_cluster_count     = number
+    min_cluster_count     = number
     max_concurrency_level = number
-    scaling_policy = string
+    scaling_policy        = string
   }))
-  default = [] 
+  default = []
 }
 
 variable "snowflake_additional_roles" {
-    type = list(string)
-    default = []
+  type    = list(string)
+  default = []
 }
 
 variable "snowflake_schema_role_read" {
-    type = list(object({
-        name = string
-    }))
-    default = []
+  type = list(object({
+    name = string
+  }))
+  default = []
 }

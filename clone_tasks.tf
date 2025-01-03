@@ -1,5 +1,5 @@
 resource "snowflake_task" "Source_clone" {
-  provider  = snowflake.accountadmin
+  provider  = snowflake.sysadmin
   for_each  = { for db in var.snowflake_prod_source_databases : db.name => db }
   database  = "SYSTEM"
   schema    = "dev_clones"
