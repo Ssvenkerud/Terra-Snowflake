@@ -57,12 +57,4 @@ resource "snowflake_grant_account_role" "Permifrost_grant" {
   user_name = snowflake_service_user.sys_permifrost_user[0].name
 }
 
-resource "snowflake_grant_privileges_to_account_role" "Permifrost_Warehouse" {
-  provider          = snowflake.securityadmin
-  privileges        = ["USAGE"]
-  account_role_name = "SECURITYADMIN"
-  on_account_object {
-    object_type = "WAREHOUSE"
-    object_name = "SYSTEM"
-  }
-}
+
