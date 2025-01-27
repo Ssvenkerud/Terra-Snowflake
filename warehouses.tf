@@ -1,7 +1,7 @@
 resource "snowflake_warehouse" "default_loading_warehouse" {
   provider              = snowflake.sysadmin
   for_each              = { for wh in var.snowflake_data_loader : wh.source => wh }
-  name                  = "loading_data_${each.value.source}"
+  name                  = "LOADING_DATA_${each.value.source}"
   warehouse_size        = each.value.size
   auto_suspend          = each.value.auto_suspend
   max_cluster_count     = each.value.max_cluster_count
@@ -20,7 +20,7 @@ resource "snowflake_warehouse" "default_loading_warehouse" {
 resource "snowflake_warehouse" "default_prod_transformer" {
   provider              = snowflake.sysadmin
   for_each              = { for wh in var.snowflake_prod_transformer : wh.name => wh }
-  name                  = "transformer_${each.value.name}"
+  name                  = "TRANSFORMER_${each.value.name}"
   warehouse_size        = each.value.size
   auto_suspend          = 60
   max_cluster_count     = each.value.max_cluster_count
@@ -38,7 +38,7 @@ resource "snowflake_warehouse" "default_prod_transformer" {
 resource "snowflake_warehouse" "default_dev_transformer" {
   provider              = snowflake.sysadmin
   for_each              = { for wh in var.snowflake_dev_transformer : wh.name => wh }
-  name                  = "dev_transformer_${each.value.name}"
+  name                  = "DEV_TRANSFORMER_${each.value.name}"
   warehouse_size        = each.value.size
   auto_suspend          = 60
   max_cluster_count     = each.value.max_cluster_count

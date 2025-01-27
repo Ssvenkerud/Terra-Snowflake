@@ -1,11 +1,11 @@
 resource "snowflake_service_user" "sys_loader" {
   provider          = snowflake.useradmin
   for_each          = { for user in var.snowflake_data_loader : user.source => user }
-  name              = "sys_loader_${each.value.source}"
-  login_name        = "sys_loader_${each.value.source}"
+  name              = "SYS_LOADER_${each.value.source}"
+  login_name        = "SYS_LOADER_${each.value.source}"
   comment           = "system user for data loading"
-  default_warehouse = "loading_data_${each.value.source}"
-  default_role      = "loader_${each.value.source}"
+  default_warehouse = "LOADING_DATA_${each.value.source}"
+  default_role      = "LOADER_${each.value.source}"
   #abort_detached_query = true
   #client_session_keep_alive = false
   #disable_mfa = true
@@ -15,8 +15,8 @@ resource "snowflake_service_user" "sys_loader" {
 resource "snowflake_service_user" "sys_dbt_user" {
   provider   = snowflake.useradmin
   count      = var.snowflake_dbt_enabled ? 1 : 0
-  name       = "sys_dbt_${var.project_name}"
-  login_name = "sys_dbt_${var.project_name}"
+  name       = "SYS_DBT_${var.project_name}"
+  login_name = "SYS_DBT_${var.project_name}"
   comment    = "system user for data loading"
   #abort_detached_query = true
   #client_session_keep_alive = false
@@ -26,9 +26,9 @@ resource "snowflake_service_user" "sys_dbt_user" {
 resource "snowflake_service_user" "sys_powerbi_user" {
   provider   = snowflake.useradmin
   count      = var.snowflake_powerbi_enabled ? 1 : 0
-  name       = "sys_powerbi_${var.project_name}"
-  login_name = "sys-powerbi_${var.project_name}"
-  comment    = "system useu for data loading"
+  name       = "SYS_POWERBI_${var.project_name}"
+  login_name = "SYS_POWERBI_${var.project_name}"
+  comment    = "system user for data loading"
   #abort_detached_query = true
   #client_session_keep_alive = false
   #disable_mfa = true
