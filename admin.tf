@@ -2,7 +2,7 @@ resource "snowflake_database" "system_database" {
   provider = snowflake.sysadmin
   count    = var.snowflake_admin_setup ? 1 : 0
 
-  name                        = "SYSTEM"
+  name                        = "system"
   comment                     = "The database containing project dataproducts"
   data_retention_time_in_days = var.default_dds_retention_time
 }
@@ -24,7 +24,7 @@ resource "snowflake_database" "curated_database" {
   provider = snowflake.sysadmin
   count    = var.snowflake_curated_setup ? 1 : 0
 
-  name                        = "CURATED"
+  name                        = "data_products"
   comment                     = "The database containing project dataproducts"
   data_retention_time_in_days = var.default_dds_retention_time
 }
@@ -34,14 +34,14 @@ resource "snowflake_database" "enterprice_conformed_database" {
   provider = snowflake.sysadmin
   count    = var.snowflake_enterprice_conformed_setup ? 1 : 0
 
-  name                        = "ENTERPRICE_CONFORMED"
+  name                        = "internal_sharing"
   comment                     = "The database containing project dataproducts"
   data_retention_time_in_days = var.default_dds_retention_time
 }
 
 resource "snowflake_warehouse" "sys_warehouse" {
   provider              = snowflake.sysadmin
-  name                  = "SYSTEM_${var.project_name}"
+  name                  = "system_${var.project_name}"
   warehouse_size        = "XSMALL"
   auto_suspend          = 60
   max_cluster_count     = 2

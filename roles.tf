@@ -51,31 +51,31 @@ locals {
 resource "snowflake_account_role" "ar_db_read" {
   provider = snowflake.useradmin
   for_each = { for db in local.all_prod_databases : db.name => db }
-  name     = "AR_DB_${each.key}_R"
+  name     = "ar_db_${each.key}_R"
 }
 
 resource "snowflake_account_role" "ar_db_write" {
   provider = snowflake.useradmin
   for_each = { for db in local.all_prod_databases : db.name => db }
-  name     = "AR_DB_${each.key}_W"
+  name     = "ar_db_${each.key}_W"
 }
 
 resource "snowflake_account_role" "dev_ar_db_read" {
   provider = snowflake.useradmin
   for_each = { for db in local.all_dev_databases : db.name => db }
-  name     = "DEV_AR_DB_${each.key}_R"
+  name     = "dev_ar_db_${each.key}_R"
 }
 
 resource "snowflake_account_role" "dev_ar_db_write" {
   provider = snowflake.useradmin
   for_each = { for db in local.all_dev_databases : db.name => db }
-  name     = "DEV_AR_DB_${each.key}_W"
+  name     = "dev_ar_db_${each.key}_W"
 }
 
 resource "snowflake_account_role" "ar_schema_read" {
   provider = snowflake.useradmin
   for_each = { for role in var.snowflake_schema_role_read : role.name => role }
-  name     = "AR_SCHEMA_${each.value.name}_R"
+  name     = "ar_schema_${each.value.name}_R"
 }
 
 #############################
@@ -86,6 +86,6 @@ resource "snowflake_account_role" "ar_schema_read" {
 resource "snowflake_account_role" "loader_role" {
   provider = snowflake.useradmin
   for_each = { for db in var.snowflake_prod_source_databases : db.name => db }
-  name     = "LOADER_${each.value.name}"
+  name     = "loader_${each.value.name}"
   comment  = "role for dataloaders"
 }
