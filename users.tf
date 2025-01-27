@@ -54,7 +54,7 @@ resource "snowflake_grant_account_role" "Permifrost_grant" {
   count    = var.snowflake_permifrost_enabled ? 1 : 0
 
   role_name = "SECURITYADMIN"
-  user_name = snowflake_service_user.sys_permifrost_user[0].name
+  user_name = snowflake_user.sys_permifrost_user[0].name
 }
 
 
