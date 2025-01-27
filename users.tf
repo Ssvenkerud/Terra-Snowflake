@@ -35,7 +35,7 @@ resource "snowflake_service_user" "sys_powerbi_user" {
   #query_tag = "DATA_LOADER"
 }
 
-resource "snowflake_service_user" "sys_permifrost_user" {
+resource "snowflake_user" "sys_permifrost_user" {
   provider          = snowflake.useradmin
   count             = var.snowflake_permifrost_enabled ? 1 : 0
   name              = "SYS_PERMIFROST"
