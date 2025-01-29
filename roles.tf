@@ -17,7 +17,7 @@ resource "snowflake_account_role" "non_sso_data_analyst" {
 resource "snowflake_account_role" "non_sso_data_domain_admin" {
   provider = snowflake.useradmin
   count    = var.snowflake_sso_integration ? 0 : 1
-  name     = "DATA_${var.project_name}_ADMIN"
+  name     = "DATA_ADMIN_${var.project_name}"
 }
 
 resource "snowflake_account_role" "Powerbi_role" {
