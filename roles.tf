@@ -48,6 +48,28 @@ locals {
   all_source_databases   = concat(var.snowflake_prod_source_databases, var.snowflake_dev_source_databases)
 
 }
+## DDS project
+
+resource "snowflake_account_role" "ar_db_dds_project_read" {
+  provider = snowflake.securityadmin
+  name     = "AR_DB_DDS_${var.project_name}_R"
+}
+
+resource "snowflake_account_role" "ar_db_dds_project_write" {
+  provider = snowflake.securityadmin
+  name     = "AR_DB_DDS_${var.project_name}_W"
+}
+
+resource "snowflake_account_role" "dev_ar_db_dds_project_read" {
+  provider = snowflake.securityadmin
+  name     = "DEV_AR_DB_DDS_${var.project_name}_R"
+}
+
+resource "snowflake_account_role" "dev_ar_db_dds_project_write" {
+  provider = snowflake.securityadmin
+
+  name = "DEV_AR_DB_DDS_${var.project_name}_W"
+}
 ## DDS bases
 resource "snowflake_account_role" "ar_db_dds_read" {
   provider = snowflake.securityadmin
