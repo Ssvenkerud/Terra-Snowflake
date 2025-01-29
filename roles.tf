@@ -42,6 +42,15 @@ resource "snowflake_account_role" "extra_roles" {
 ## AR roles for databases ##
 #############################
 
+resource "snowflake_account_role" "ar_db_project_dds_read" {
+  provider = snowflake.useradmin
+  name     = "AR_DB_DDS_${var.project_name}_R"
+}
+
+resource "snowflake_account_role" "ar_db_project_dds_write" {
+  provider = snowflake.useradmin
+  name     = "AR_DB_DDS_${var.project_name}_W"
+}
 locals {
   all_prod_databases = concat(var.snowflake_delivery_databases, var.snowflake_prod_source_databases)
   all_dev_databases  = concat(var.snowflake_delivery_databases, var.snowflake_dev_source_databases)
