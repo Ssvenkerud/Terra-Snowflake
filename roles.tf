@@ -44,7 +44,7 @@ resource "snowflake_account_role" "extra_roles" {
 
 
 locals {
-  all_delivery_databases = concat(var.snowflake_delivery_databases, var.project_name)
+  all_delivery_databases = concat(var.snowflake_delivery_databases)
   all_source_databases   = concat(var.snowflake_prod_source_databases, var.snowflake_dev_source_databases)
 
 }
