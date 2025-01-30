@@ -9,7 +9,7 @@ resource "snowflake_database" "central_data_product_database" {
 }
 
 resource "snowflake_account_role" "central_data_products_role_w" {
-  provider = snowflake.sysadmin
+  provider = snowflake.securityadmin
   count    = var.snowflake_central_data_products_setup ? 1 : 0
 
 
@@ -20,7 +20,7 @@ resource "snowflake_account_role" "central_data_products_role_w" {
 }
 
 resource "snowflake_account_role" "central_data_products_role_r" {
-  provider = snowflake.sysadmin
+  provider = snowflake.securityadmin
   count    = var.snowflake_central_data_products_setup ? 1 : 0
 
 
@@ -46,7 +46,7 @@ resource "snowflake_database" "dev_project_data_products_database" {
   data_retention_time_in_days = var.default_dds_retention_time
 }
 resource "snowflake_account_role" "project_data_products_role_w" {
-  provider = snowflake.sysadmin
+  provider = snowflake.securityadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
 
@@ -57,7 +57,7 @@ resource "snowflake_account_role" "project_data_products_role_w" {
 }
 
 resource "snowflake_account_role" "project_data_products_role_r" {
-  provider = snowflake.sysadmin
+  provider = snowflake.securityadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
 
@@ -67,7 +67,7 @@ resource "snowflake_account_role" "project_data_products_role_r" {
 }
 
 resource "snowflake_account_role" "dev_project_data_products_role_w" {
-  provider = snowflake.sysadmin
+  provider = snowflake.securityadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
   name       = "DEV_AR_DB_DATA_PRODUCTS_${var.project_name}_W"
@@ -76,7 +76,7 @@ resource "snowflake_account_role" "dev_project_data_products_role_w" {
 }
 
 resource "snowflake_account_role" "dev_project_data_products_role_r" {
-  provider = snowflake.sysadmin
+  provider = snowflake.securityadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
   name       = "DEV_AR_DB_DATA_PRODUCTS_${var.project_name}_R"

@@ -11,8 +11,9 @@ resource "snowflake_database" "central_internal_shareing_database" {
 }
 
 resource "snowflake_account_role" "central_internal_shareing_role_w" {
-  provider = snowflake.sysadmin
-  count    = var.snowflake_central_internal_share_setup ? 1 : 0
+  provider = snowflake.securityadmin
+
+  count = var.snowflake_central_internal_share_setup ? 1 : 0
 
 
   name    = "AR_DB_INTERNAL_SHAREING_W"
@@ -20,8 +21,9 @@ resource "snowflake_account_role" "central_internal_shareing_role_w" {
 }
 
 resource "snowflake_account_role" "central_internal_shareing_role_r" {
-  provider = snowflake.sysadmin
-  count    = var.snowflake_central_internal_share_setup ? 1 : 0
+  provider = snowflake.securityadmin
+
+  count = var.snowflake_central_internal_share_setup ? 1 : 0
 
 
   name    = "AR_DB_INTERNAL_SHAREING_R"
@@ -30,7 +32,8 @@ resource "snowflake_account_role" "central_internal_shareing_role_r" {
 
 resource "snowflake_database" "project_internal_shareing_database" {
   provider = snowflake.sysadmin
-  count    = var.snowflake_project_internal_share_setup ? 1 : 0
+
+  count = var.snowflake_project_internal_share_setup ? 1 : 0
 
   name                        = "INTERNAL_SHAREING_${var.project_name}"
   comment                     = "This database acts as as central sharing layer for data between the teams"
@@ -38,8 +41,9 @@ resource "snowflake_database" "project_internal_shareing_database" {
 }
 
 resource "snowflake_account_role" "project_internal_shareing_role_w" {
-  provider = snowflake.sysadmin
-  count    = var.snowflake_project_internal_share_setup ? 1 : 0
+  provider = snowflake.securityadmin
+
+  count = var.snowflake_project_internal_share_setup ? 1 : 0
 
 
   name    = "AR_DB_INTERNAL_SHAREING_${var.project_name}_W"
@@ -47,8 +51,9 @@ resource "snowflake_account_role" "project_internal_shareing_role_w" {
 }
 
 resource "snowflake_account_role" "project_internal_shareing_role_r" {
-  provider = snowflake.sysadmin
-  count    = var.snowflake_project_internal_share_setup ? 1 : 0
+  provider = snowflake.securityadmin
+
+  count = var.snowflake_project_internal_share_setup ? 1 : 0
 
 
   name    = "AR_DB_INTERNAL_SHAREING_${var.project_name}_R"
