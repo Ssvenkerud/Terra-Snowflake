@@ -16,7 +16,7 @@ resource "snowflake_task" "clone_source_to_dev" {
   database  = "SYSTEM"
   schema    = "dev_clones"
   name      = "Clone ${each.value.name} to prod"
-  warehouse = snowflake_warehouse.sys_warehouse.fully_qualified_name
+  warehouse = "TERRAFORM"
   started   = true
   schedule {
     minutes = 5
