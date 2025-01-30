@@ -1,5 +1,5 @@
 resource "snowflake_grant_privileges_to_account_role" "execute_task_grant" {
-  provider          = snowflake.securityadmin
+  provider          = snowflake.accountadmin
   privileges        = ["EXECUTE TASK"]
   account_role_name = "SYSADMIN"
   on_account        = true
@@ -11,7 +11,7 @@ resource "snowflake_grant_privileges_to_account_role" "execute_task_grant" {
 #########################
 
 resource "snowflake_account_role" "extra_roles" {
-  provider = snowflake.securityadmin
+  provider = snowflake.securityadn
   for_each = toset(var.snowflake_additional_roles)
   name     = each.key
 }
