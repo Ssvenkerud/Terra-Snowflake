@@ -23,26 +23,26 @@ locals {
 resource "snowflake_account_role" "ar_db_dds_read" {
   provider = snowflake.securityadmin
   for_each = { for db in local.all_delivery_databases : db.name => db }
-  name     = "AR_DB_DDS_${each.key}_R"
+  name     = "AR_DB_CURATED_${each.key}_R"
 }
 
 resource "snowflake_account_role" "ar_db_dds_write" {
   provider = snowflake.securityadmin
   for_each = { for db in local.all_delivery_databases : db.name => db }
-  name     = "AR_DB_DDS_${each.key}_W"
+  name     = "AR_DB_CURATED_${each.key}_W"
 }
 
 resource "snowflake_account_role" "dev_ar_db_dds_read" {
   provider = snowflake.securityadmin
   for_each = { for db in local.all_delivery_databases : db.name => db }
-  name     = "DEV_AR_DB_DDS_${each.key}_R"
+  name     = "DEV_AR_DB_CURATED_${each.key}_R"
 }
 
 resource "snowflake_account_role" "dev_ar_db_dds_write" {
   provider = snowflake.securityadmin
 
   for_each = { for db in local.all_delivery_databases : db.name => db }
-  name     = "DEV_AR_DB_DDS_${each.key}_W"
+  name     = "DEV_AR_DB_CURATED_${each.key}_W"
 }
 
 ## Source databases

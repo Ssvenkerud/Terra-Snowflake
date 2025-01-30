@@ -20,14 +20,6 @@ resource "snowflake_account_role" "loader_admin" {
   name     = "LOADER_ADMIN"
 }
 
-resource "snowflake_database" "curated_database" {
-  provider = snowflake.sysadmin
-  count    = var.snowflake_curated_setup ? 1 : 0
-
-  name                        = "CURATED"
-  comment                     = "The database containing project dataproducts"
-  data_retention_time_in_days = var.default_dds_retention_time
-}
 
 
 resource "snowflake_warehouse" "sys_warehouse" {
@@ -56,7 +48,7 @@ resource "snowflake_tag" "billing_tag" {
   name     = "PROJECT"
   comment  = "Tag used to ascribe ownership of objects and resoures to projects"
   depends_on = [
-    snowflake_database.default_database,
+    snowflake_database.system_database,
     snowflake_warehouse.sys_warehouse
   ]
 }
