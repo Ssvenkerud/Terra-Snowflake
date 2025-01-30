@@ -11,7 +11,7 @@ resource "snowflake_database" "prod_only_source_database" {
 }
 
 resource "snowflake_task" "clone_source_to_dev" {
-  provider  = snowflake.sysadmin
+  provider  = snowflake.accountadmin
   for_each  = { for db in var.snowflake_prod_source_databases : db.name => db }
   database  = "SYSTEM"
   schema    = "dev_clones"
