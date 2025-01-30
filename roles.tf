@@ -1,5 +1,5 @@
 resource "snowflake_grant_privileges_to_account_role" "execute_task_grant" {
-  provider          = snowflake.secuityadmin
+  provider          = snowflake.securityadmin
   privileges        = ["EXECUTE TASK"]
   account_role_name = "SYSADMIN"
   on_account        = true
