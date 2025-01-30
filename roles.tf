@@ -81,10 +81,9 @@ resource "snowflake_account_role" "ar_schema_read" {
 ## System Functional Roles ##
 #############################
 
-
 resource "snowflake_account_role" "loader_role" {
   provider = snowflake.securityadmin
-  for_each = { for db in var.snowflake_prod_source_databases : db.name => db }
+  for_each = { for db in local.all_source_databases : db.name => db }
   name     = "LOADER_${each.value.name}"
   comment  = "role for dataloaders"
 }

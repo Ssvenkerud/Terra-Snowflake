@@ -98,8 +98,9 @@ variable "default_dds_retention_time" {
 }
 variable "snowflake_prod_source_databases" {
   type = list(object({
-    name                = string
-    data_retention_days = string
+    name                 = string
+    data_retention_days  = string
+    clone_frequency_cron = string
   }))
   default = []
 }
