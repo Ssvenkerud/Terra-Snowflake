@@ -14,7 +14,7 @@ resource "snowflake_task" "clone_source_to_dev" {
   provider  = snowflake.sysadmin
   for_each  = { for db in var.snowflake_prod_source_databases : db.name => db }
   database  = "SYSTEM"
-  schema    = "dev_clones"
+  schema    = "DEV_CLONES"
   name      = "Clone ${each.value.name} to prod"
   warehouse = "TERRAFORM"
   started   = true
