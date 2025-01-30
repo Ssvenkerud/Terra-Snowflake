@@ -6,7 +6,16 @@ resource "snowflake_database" "system_database" {
   comment                     = "The database containing project dataproducts"
   data_retention_time_in_days = var.default_dds_retention_time
 }
-
+resource "snowflake_account_role" "ar_system_database_r" {
+  provider = snowflake.useradmin
+  count    = var.snowflake_admin_setup ? 1 : 0
+  name     = "AR_DB_SYSTEM_R"
+}
+resource "snowflake_account_role" "ar_system_database_w" {
+  provider = snowflake.useradmin
+  count    = var.snowflake_admin_setup ? 1 : 0
+  name     = "AR_DB_SYSTEM_W"
+}
 
 resource "snowflake_account_role" "data_admin" {
   provider = snowflake.useradmin
