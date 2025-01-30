@@ -11,7 +11,7 @@ resource "snowflake_grant_privileges_to_account_role" "execute_task_grant" {
 #########################
 
 resource "snowflake_account_role" "extra_roles" {
-  provider = snowflake.securityadn
+  provider = snowflake.securityadmin
   for_each = toset(var.snowflake_additional_roles)
   name     = each.key
 }
