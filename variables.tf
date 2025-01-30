@@ -38,8 +38,27 @@ variable "snowflake_enterprice_conformed_setup" {
 
   default = false
 }
+variable "snowflake_central_internal_share_setup" {
+  type = bool
 
+  default = false
+}
+variable "snowflake_project_internal_share_setup" {
+  type = bool
 
+  default = false
+}
+
+variable "snowflake_central_data_products_setup" {
+  type = bool
+
+  default = false
+}
+variable "snowflake_project_data_products_setup" {
+  type = bool
+
+  default = false
+}
 variable "snowflake_dbt_enabled" {
   type = bool
 
