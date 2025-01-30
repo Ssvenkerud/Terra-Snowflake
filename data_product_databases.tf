@@ -8,7 +8,7 @@ resource "snowflake_database" "central_data_product_database" {
   data_retention_time_in_days = var.default_dds_retention_time
 }
 
-resource "snowflake_role" "central_data_products_role_w" {
+resource "snowflake_account_role" "central_data_products_role_w" {
   provider = snowflake.sysadmin
   count    = var.snowflake_central_data_products_setup ? 1 : 0
 
@@ -19,7 +19,7 @@ resource "snowflake_role" "central_data_products_role_w" {
 
 }
 
-resource "snowflake_role" "central_data_products_role_r" {
+resource "snowflake_account_role" "central_data_products_role_r" {
   provider = snowflake.sysadmin
   count    = var.snowflake_central_data_products_setup ? 1 : 0
 
@@ -45,7 +45,7 @@ resource "snowflake_database" "dev_project_data_products_database" {
   comment                     = "This database acts as as central sharing layer for data between the teams"
   data_retention_time_in_days = var.default_dds_retention_time
 }
-resource "snowflake_role" "project_data_products_role_w" {
+resource "snowflake_account_role" "project_data_products_role_w" {
   provider = snowflake.sysadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
@@ -56,7 +56,7 @@ resource "snowflake_role" "project_data_products_role_w" {
 
 }
 
-resource "snowflake_role" "project_data_products_role_r" {
+resource "snowflake_account_role" "project_data_products_role_r" {
   provider = snowflake.sysadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
@@ -66,7 +66,7 @@ resource "snowflake_role" "project_data_products_role_r" {
   depends_on = [snowflake_database.project_data_products_database]
 }
 
-resource "snowflake_role" "dev_project_data_products_role_w" {
+resource "snowflake_account_role" "dev_project_data_products_role_w" {
   provider = snowflake.sysadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
@@ -75,7 +75,7 @@ resource "snowflake_role" "dev_project_data_products_role_w" {
   depends_on = [snowflake_database.dev_project_data_products_database]
 }
 
-resource "snowflak_role" "dev_project_data_products_role_r" {
+resource "snowflake_account_role" "dev_project_data_products_role_r" {
   provider = snowflake.sysadmin
   count    = var.snowflake_project_data_products_setup ? 1 : 0
 
