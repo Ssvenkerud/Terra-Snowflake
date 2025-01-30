@@ -10,6 +10,26 @@ resource "snowflake_database" "prod_only_source_database" {
   }
 }
 
+resource "snowflake_task" "clone_source_to_dev" {
+  provider  = snowflake.sysadmin
+  for_each  = { for db in var.snowflake_prod_source_databases : db.name => db }
+  database  = "SYSTEM"
+  schema    = "dev_clones"
+  name      = "Clone ${each.value.name} to prod"
+  warehouse = snowflake_warehouse.sys_warehouse.fully_qualified_name
+  started   = true
+  schedule {
+    minutes = 5
+  }
+  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.name} CLONE SOURCE_${each.value.name};"
+  depends_on = [
+    snowflake_warehouse.sys_warehouse,
+    snowflake_database.prod_source_database
+  ]
+
+}
+
+
 resource "snowflake_database" "dev_source_database" {
   provider                    = snowflake.sysadmin
   for_each                    = { for db in var.snowflake_dev_source_databases : db.name => db }
