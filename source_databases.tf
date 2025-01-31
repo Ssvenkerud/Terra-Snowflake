@@ -16,7 +16,7 @@ resource "snowflake_task" "clone_source_to_dev" {
   database  = "SYSTEM"
   schema    = "DEV_CLONES"
   name      = "Clone_${each.value.name}_to_prod"
-  warehouse = "TERRAFORM"
+  warehouse = "SYSTEM_${var.project_name}"
   started   = true
   schedule {
     using_cron = each.value.clone_frequency_cron
