@@ -91,7 +91,7 @@ resource "snowflake_tag_association" "extra_warehouses_association" {
 
   for_each = { for wh in var.snowflake_extra_warehouses : wh.name => wh }
 
-  object_identifiers = [snowflake_warehouse.exstra_warehouse[each.key]]
+  object_identifiers = ["${snowflake_warehouse.exstra_warehouse[each.key]}"]
   object_type        = "WAREHOUSE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
 
