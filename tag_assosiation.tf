@@ -45,7 +45,7 @@ resource "snowflake_tag_association" "dds_db_association" {
 resource "snowflake_tag_association" "system_warehouse_association" {
   provider = snowflake.sysadmin
 
-  object_identifiers = "SYSTEM_${var.project_name}"
+  object_identifiers = ["SYSTEM_${var.project_name}"]
   object_type        = "WAREHOUSE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
