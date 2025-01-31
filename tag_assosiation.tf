@@ -67,7 +67,7 @@ resource "snowflake_tag_association" "prod_transformer_association" {
 
   for_each = { for wh in var.snowflake_prod_transformer : wh.name => wh }
 
-  object_identifiers = [snowflake_warehouse.default_prod_transformer[each.value.key]]
+  object_identifiers = [snowflake_warehouse.default_prod_transformer[each.key]]
   object_type        = "WAREHOUSE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
@@ -79,7 +79,7 @@ resource "snowflake_tag_association" "dev_transformer_association" {
 
   for_each = { for wh in var.snowflake_dev_transformer : wh.name => wh }
 
-  object_identifiers = [snowflake_warehouse.default_dev_transformer[each.value.key]]
+  object_identifiers = [snowflake_warehouse.default_dev_transformer[each.key]]
   object_type        = "WAREHOUSE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
@@ -91,7 +91,7 @@ resource "snowflake_tag_association" "extra_warehouses_association" {
 
   for_each = { for wh in var.snowflake_extra_warehouses : wh.name => wh }
 
-  object_identifiers = [snowflake_warehouse.exstra_warehouse[each.value.key]]
+  object_identifiers = [snowflake_warehouse.exstra_warehouse[each.key]]
   object_type        = "WAREHOUSE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
 
