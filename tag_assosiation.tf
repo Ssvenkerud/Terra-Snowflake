@@ -2,6 +2,7 @@ locals {
   prod_source        = [for source in var.snowflake_prod_source_databases : "SOURCE_${source}"]
   dev_source         = [for source in var.snowflake_dev_source_databases : "DEV_SOURCE_${source}"]
   delivery_databases = [for db in var.snowflake_delivery_databases : "CURATED_${db}"]
+  prod_transformers  = [for wh in var.snowflake_prod_transformer : "TRANSFORMER_${wh}"]
 }
 resource "snowflake_tag_association" "dds_db_association" {
   provider = snowflake.sysadmin
@@ -65,9 +66,7 @@ resource "snowflake_tag_association" "loading_warehouse_association" {
 resource "snowflake_tag_association" "prod_transformer_association" {
   provider = snowflake.sysadmin
 
-  for_each = { for wh in var.snowflake_prod_transformer : wh.name => wh }
-
-  object_identifiers = [snowflake_warehouse.default_prod_transformer[each.key]]
+  object_identifiers = [local.prod_transformers]
   object_type        = "WAREHOUSE"
   tag_id             = "SYSTEM.PUBLIC.PROJECT"
   tag_value          = var.project_name
