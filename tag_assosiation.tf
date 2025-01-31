@@ -43,7 +43,7 @@ resource "snowflake_tag_association" "dds_db_association" {
 #}
 ###
 resource "snowflake_tag_association" "system_warehouse_association" {
-  provider = snowflake.accountadmin
+  provider = snowflake.sysadmin
 
   object_identifiers = "SYSTEM_${var.project_name}"
   object_type        = "WAREHOUSE"
@@ -51,7 +51,7 @@ resource "snowflake_tag_association" "system_warehouse_association" {
   tag_value          = var.project_name
 }
 resource "snowflake_tag_association" "loading_warehouse_association" {
-  provider = snowflake.accountadmin
+  provider = snowflake.sysadmin
 
   for_each = { for wh in var.snowflake_data_loader : wh.source => wh }
 
@@ -63,7 +63,7 @@ resource "snowflake_tag_association" "loading_warehouse_association" {
 
 
 resource "snowflake_tag_association" "prod_transformer_association" {
-  provider = snowflake.accountadmin
+  provider = snowflake.sysadmin
 
   for_each = { for wh in var.snowflake_prod_transformer : wh.name => wh }
 
@@ -75,7 +75,7 @@ resource "snowflake_tag_association" "prod_transformer_association" {
 
 
 resource "snowflake_tag_association" "dev_transformer_association" {
-  provider = snowflake.accountadmin
+  provider = snowflake.sysadmin
 
   for_each = { for wh in var.snowflake_dev_transformer : wh.name => wh }
 
@@ -87,7 +87,7 @@ resource "snowflake_tag_association" "dev_transformer_association" {
 
 
 resource "snowflake_tag_association" "extra_warehouses_association" {
-  provider = snowflake.accountadmin
+  provider = snowflake.sysadmin
 
   for_each = { for wh in var.snowflake_extra_warehouses : wh.name => wh }
 
