@@ -39,6 +39,12 @@ resource "snowflake_account_role" "tag_admin" {
   name     = "TAG_ADMIN"
 }
 
+resource "snowflake_account_role" "tag_admin" {
+  provider = snowflake.useradmin
+  count    = var.snowflake_admin_setup ? 1 : 0
+  name     = "TRANSFORMER_ADMIN"
+}
+
 resource "snowflake_grant_privileges_to_account_role" "assign_tag_grant" {
   provider = snowflake.accountadmin
   count    = var.snowflake_admin_setup ? 1 : 0
