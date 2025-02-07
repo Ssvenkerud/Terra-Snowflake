@@ -1,5 +1,5 @@
 resource "snowflake_oauth_integration_for_custom_clients" "dbt_cloud" {
-  provider = snowflake.acountadmin
+  provider = snowflake.accountadmin
   count    = var.snowflake_dbt_cloud_setup ? 1 : 0
 
   name                         = "DBT_CLOUD_SSO"
