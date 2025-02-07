@@ -82,21 +82,18 @@ variable "allowed_sso_email_domain" {
 }
 variable "sso_idp_entity_id" {
   sensitive   = true
-  ephemeral   = true
   description = "The string containing the IdP EntityID / Issuer."
   type        = string
   default     = "foo"
 }
 variable "sso_url" {
   sensitive   = true
-  ephemeral   = true
   description = "The string containing the IdP SSO URL, where the user should be redirected by Snowflake (the Service Provider) with a SAML AuthnRequest"
   type        = string
   default     = "foo"
 }
 variable "saml2_x509_cert" {
   sensitive   = true
-  ephemeral   = true
   description = "path to SAML cert, must be pem formanted"
   type        = string
   default     = "adda/badda.pem"
