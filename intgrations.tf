@@ -14,15 +14,20 @@ resource "snowflake_oauth_integration_for_custom_clients" "dbt_cloud" {
 
 
 resource "snowflake_saml2_integration" "OKTA_SSO" {
-  provider                  = snowflake.accountadmin
-  count                     = var.snowflake_okta_sso_setup ? 1 : 0
-  comment                   = "Terraform managed integration"
-  enabled                   = true
-  name                      = "SSO_OKTA_INTEGRATION"
-  saml2_enable_sp_initiated = true
-  saml2_force_authn         = false
-  saml2_issuer              = var.sso_idp_entity_id
-  saml2_provider            = "OKTA"
-  saml2_sso_url             = var.sso_url
-  saml2_x509_cert           = file(var.saml2_x509_cert)
+  provider                            = snowflake.accountadmin
+  count                               = var.snowflake_okta_sso_setup ? 1 : 0
+  comment                             = "Terraform managed integration"
+  enabled                             = true
+  name                                = "SSO_OKTA_INTEGRATION"
+  saml2_enable_sp_initiated           = true
+  saml2_force_authn                   = false
+  saml2_issuer                        = var.sso_idp_entity_id
+  saml2_provider                      = "OKTA"
+  saml2_sso_url                       = var.sso_url
+  saml2_x509_cert                     = file(var.saml2_x509_cert)
+  saml2_sp_initiated_login_page_label = "OKTA SSO"
+  saml2_snowflake_acs_url             = var.snowflake_acs_url
+  saml2_snowflake_issuer_url          = var.snowflake_issuer_url
 }
+
+

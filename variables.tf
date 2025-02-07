@@ -70,16 +70,6 @@ variable "snowflake_okta_sso_setup" {
 
   default = false
 }
-variable "allowed_sso_email_patterns" {
-  description = "The username of the user to recive notifications for resource monitoring"
-  type        = list(string)
-  default     = ["^(.+dev)@example.com$"]
-}
-variable "allowed_sso_email_domain" {
-  description = "The username of the user to recive notifications for resource monitoring"
-  type        = list(string)
-  default     = ["^(.+dev)@example.com$"]
-}
 variable "sso_idp_entity_id" {
   sensitive   = true
   description = "The string containing the IdP EntityID / Issuer."
@@ -98,6 +88,19 @@ variable "saml2_x509_cert" {
   type        = string
   default     = "adda/badda.pem"
 }
+variable "snowflake_acs_url" {
+  sensitive   = true
+  description = "The string containing the Snowflake Assertion Consumer Service URL to which the IdP will send its SAML authentication response back to Snowflake."
+  type        = string
+  default     = "https://example.snowflakecomputing.com/fed/login"
+}
+variable "snowflake_issuer_url" {
+  sensitive   = true
+  description = "The string containing the EntityID / Issuer for the Snowflake service provider."
+  type        = string
+  default     = "https://example.snowflakecomputing.com"
+}
+
 
 
 
