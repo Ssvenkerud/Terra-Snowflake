@@ -55,7 +55,56 @@ variable "monitor_start" {
   default = "2024-12-01 00:00"
 }
 
-#########################
+###################### 
+#  SSO Configuration # 
+######################
+
+variable "snowflake_sso_integration" {
+  description = "If you are using a SSP integration set this variable to true, if it is false, additional roles and objects are created, that normally would be managed by the SSO integration."
+  type        = bool
+  default     = false
+}
+variable "snowflake_okta_sso_setup" {
+  description = "set to true, if you are using OKTA as you IDP"
+  type        = bool
+
+  default = false
+}
+variable "allowed_sso_email_patterns" {
+  description = "The username of the user to recive notifications for resource monitoring"
+  type        = list(string)
+  default     = ["^(.+dev)@example.com$"]
+}
+variable "allowed_sso_email_domain" {
+  description = "The username of the user to recive notifications for resource monitoring"
+  type        = list(string)
+  default     = ["^(.+dev)@example.com$"]
+}
+variable "sso_idp_entity_id" {
+  sensitive   = true
+  ephemeral   = true
+  description = "The string containing the IdP EntityID / Issuer."
+  type        = string
+  default     = "foo"
+}
+variable "sso_url" {
+  sensitive   = true
+  ephemeral   = true
+  description = "The string containing the IdP SSO URL, where the user should be redirected by Snowflake (the Service Provider) with a SAML AuthnRequest"
+  type        = string
+  default     = "foo"
+}
+variable "saml2_x509_cert" {
+  sensitive   = true
+  ephemeral   = true
+  description = "path to SAML cert, must be pem formanted"
+  type        = string
+  default     = "adda/badda.pem"
+}
+
+
+
+########################
 ## Admin configuration ##
 #########################
 
@@ -110,10 +159,27 @@ variable "PERMIFROST_KEY" {
   sensitive   = true
 
 }
-variable "snowflake_sso_integration" {
-  description = "If you are using a SSP integration set this variable to true, if it is false, additional roles and objects are created, that normally would be managed by the SSO integration."
+
+####################
+## DBT CLOUD setuo ##
+#####################
+
+variable "snowflake_dbt_cloud_setup" {
+  description = "Is this the admin project for the snowflake account, holding the inital central objects"
   type        = bool
-  default     = false
+
+  default = false
+}
+variable "dbt_cloud_uri" {
+  sensitive = true
+  ephemeral = true
+  type      = string
+  default   = ""
+}
+
+variable "dbt_oauth_issue_refresh_tokens" {
+  description = "The retention time for data within the defaul domain data store"
+  type        = number
 }
 
 ########################
