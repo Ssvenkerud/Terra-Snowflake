@@ -169,7 +169,6 @@ variable "snowflake_dbt_cloud_setup" {
 }
 variable "dbt_cloud_uri" {
   sensitive = true
-  ephemeral = true
   type      = string
   default   = ""
 }
