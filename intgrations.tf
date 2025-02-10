@@ -6,7 +6,6 @@ resource "snowflake_oauth_integration_for_custom_clients" "dbt_cloud" {
   oauth_client_type            = "CONFIDENTIAL"
   oauth_redirect_uri           = var.dbt_cloud_uri
   enabled                      = "true"
-  blocked_roles_list           = ["ACCOUNTADMIN", "SECURITYADMIN", "SYSADMIN", "USERADMIN", "DATA_ADMIN"]
   oauth_issue_refresh_tokens   = "true"
   oauth_refresh_token_validity = var.dbt_oauth_issue_refresh_tokens
   comment                      = "integration for DBT cloud user authenticaition"
