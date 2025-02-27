@@ -6,7 +6,6 @@ resource "snowflake_service_user" "sys_loader" {
   comment           = "system user for data loading"
   default_warehouse = "LOADING_DATA_${each.value.source}"
   default_role      = "LOADER_${each.value.source}"
-  rsa_public_key    = var.snowflake_loader_keys[each.value.source]
   #abort_detached_query = true
   #client_session_keep_alive = false
   #disable_mfa = true
