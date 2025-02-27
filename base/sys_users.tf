@@ -12,18 +12,6 @@ resource "snowflake_service_user" "sys_loader" {
   #query_tag = "DATA_LOADER"
 }
 
-resource "snowflake_service_user" "sys_pk_loader" {
-
-  provider          = snowflake.useradmin
-  for_each          = { for user in var.snowflake_pk_data_loader : user.source => user }
-  name              = "SYS_LOADER_${each.value.source}"
-  login_name        = "SYS_LOADER_${each.value.source}"
-  comment           = "system user for data loading"
-  default_warehouse = "LOADING_DATA_${each.value.source}"
-  default_role      = "LOADER_${each.value.source}"
-  rsa_public_key    = var.snowflake_loader_keys[each.value.source]
-
-}
 
 resource "snowflake_service_user" "sys_dbt_user" {
   provider   = snowflake.useradmin
