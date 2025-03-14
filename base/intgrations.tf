@@ -23,7 +23,7 @@ resource "snowflake_saml2_integration" "OKTA_SSO" {
   saml2_issuer                        = var.sso_idp_entity_id
   saml2_provider                      = "OKTA"
   saml2_sso_url                       = var.sso_url
-  saml2_x509_cert                     = file(var.saml2_x509_cert)
+  saml2_x509_cert                     = var.saml2_x509_cert
   saml2_sp_initiated_login_page_label = "OKTA SSO"
   saml2_snowflake_acs_url             = var.snowflake_acs_url
   saml2_snowflake_issuer_url          = var.snowflake_issuer_url
