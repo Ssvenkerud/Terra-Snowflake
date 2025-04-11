@@ -14,7 +14,7 @@ variable "snowflake_firehose_ingestion_databases" {
   type = list(object({}))
   default = {
     database       = string
-    retention_days = int
+    retention_days = number
   }
 }
 
