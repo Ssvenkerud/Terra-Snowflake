@@ -36,6 +36,7 @@ variable "aws_firehose_public_key2" {
   description = "Secondary public key for authentication to Snowflake, Must be on 1 line without header and trailer"
   type        = string
   sensitive   = true
+default="not_set"
 }
 
 variable "project_name" {
