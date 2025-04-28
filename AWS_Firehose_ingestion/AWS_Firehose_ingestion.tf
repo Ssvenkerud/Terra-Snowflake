@@ -66,22 +66,18 @@ resource "snowflake_table" "aws_firehose_landing_tables" {
   }
 }
 
-resource "snowflake_database_role" "ar_db_source_read" {
+resource "snowflake_account_role" "ar_db_source_read" {
   provider = snowflake.securityadmin
   for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
 
-  database   = snowflake_database.prod_firehose_source_database[each.key].fully_qualified_name
-  name       = "AR_DB_SOURCE_${each.key}_R"
-  depends_on = [snowflake_database.prod_firehose_source_database]
+  name = "AR_DB_SOURCE_${each.key}_R"
 }
 
-resource "snowflake_database_role" "ar_db_source_write" {
+resource "snowflake_account_role" "ar_db_source_write" {
   provider = snowflake.securityadmin
   for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
 
-  database   = snowflake_database.prod_firehose_source_database[each.key].fully_qualified_name
-  name       = "AR_DB_SOURCE_${each.key}_W"
-  depends_on = [snowflake_database.prod_firehose_source_database]
+  name = "AR_DB_SOURCE_${each.key}_W"
 
 }
 
