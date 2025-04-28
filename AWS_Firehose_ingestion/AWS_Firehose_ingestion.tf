@@ -24,7 +24,7 @@ locals {
       for object_key, table in database : {
         database_key = database_key
         object_key   = object_key
-        table        = table
+        table        = "${table}"
       }
     ]
   ])
@@ -36,7 +36,7 @@ resource "snowflake_database" "prod_firehose_source_database" {
   for_each                    = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
   name                        = "SOURCE_${each.value.database}"
   comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
-  data_retention_time_in_days = each.value.data_retention_days
+  data_retention_time_in_days = each.value.retention_days
 }
 
 resource "snowflake_schema" "aws_firehose_landing_schema" {
@@ -44,7 +44,7 @@ resource "snowflake_schema" "aws_firehose_landing_schema" {
   for_each     = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
   name         = "LANDING"
   database     = "SOURCE_${each.value.database}"
-  comment      = "Schema cont ainin the landing zone for data ingested via firehose for the source: ${each.value.name}"
+  comment      = "Schema containin the landing zone for data ingested via firehose for the source: ${each.value.database}"
   is_transient = true
 }
 
