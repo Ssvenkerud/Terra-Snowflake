@@ -53,7 +53,7 @@ resource "snowflake_table" "aws_firehose_landing_tables" {
   for_each = { for index, sp in local.firehose_ingestion_tables : index => sp }
   database = "SOURCE_${each.value.database_key}"
   schema   = "LANDING"
-  name     = each.value.table
+  name     = "raw_${each.value.table}"
   column {
     name     = "data"
     type     = "VARIANT"
