@@ -20,10 +20,11 @@ variable "snowflake_firehose_ingestion_databases" {
 
 variable "snowflake_firehose_user" {
   description = "Settings for warehouse that are used for the data ingestion process. "
-  type = object({
-    name      = string
-    warehouse = string
-  })
+  type        = list(object({}))
+  default = [{
+    name      = "name"
+    warehouse = "name"
+  }]
 }
 
 variable "aws_firehose_public_key1" {

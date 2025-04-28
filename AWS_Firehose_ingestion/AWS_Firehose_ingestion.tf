@@ -10,7 +10,8 @@ terraform {
       configuration_aliases = [
         snowflake.sysadmin,
         snowflake.useradmin,
-        snowflake.securityadmin
+        snowflake.securityadmin,
+        snowflake.accountadmin
       ]
     }
   }
