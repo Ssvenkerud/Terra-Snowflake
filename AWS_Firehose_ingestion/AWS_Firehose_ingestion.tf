@@ -68,7 +68,7 @@ resource "snowflake_table" "aws_firehose_landing_tables" {
 
 resource "snowflake_database_role" "ar_db_source_read" {
   provider = snowflake.securityadmin
-  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.name => db }
+  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
 
   database   = snowflake_database.prod_firehose_source_database[each.key].fully_qualified_name
   name       = "AR_DB_SOURCE_${each.key}_R"
@@ -77,7 +77,7 @@ resource "snowflake_database_role" "ar_db_source_read" {
 
 resource "snowflake_database_role" "ar_db_source_write" {
   provider = snowflake.securityadmin
-  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.name => db }
+  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
 
   database   = snowflake_database.prod_firehose_source_database[each.key].fully_qualified_name
   name       = "AR_DB_SOURCE_${each.key}_W"
@@ -107,16 +107,16 @@ resource "snowflake_service_user" "sys_aws_firehouse_loader" {
 
 resource "snowflake_task" "clone_source_to_dev" {
   provider  = snowflake.sysadmin
-  for_each  = { for db in var.snowflake_firehose_ingestion_databases : db.name => db }
+  for_each  = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
   database  = "SYSTEM"
   schema    = "DEV_CLONES"
-  name      = "Clone_${each.value.name}_to_prod"
+  name      = "Clone_${each.value.database}_to_prod"
   warehouse = "SYSTEM_${var.project_name}"
   started   = true
   schedule {
     using_cron = each.value.clone_frequency_cron
   }
-  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.name} CLONE SOURCE_${each.value.name}"
+  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.database} CLONE SOURCE_${each.value.database}"
   depends_on = [
     snowflake_database.prod_firehose_source_database
   ]
