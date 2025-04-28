@@ -23,7 +23,7 @@ locals {
     for database_key, database in var.snowflake_firehose_ingestion_tables : [
       for object_key, table in database : {
         database_key = database_key
-        object_key   = object_type_key
+        object_key   = object_key
         table        = table
       }
     ]
