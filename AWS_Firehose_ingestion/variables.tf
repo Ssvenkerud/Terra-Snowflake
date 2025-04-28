@@ -12,10 +12,10 @@ variable "snowflake_firehose_ingestion_tables" {
 
 variable "snowflake_firehose_ingestion_databases" {
   type = list(object({}))
-  default = {
-    database       = string
-    retention_days = number
-  }
+  default = [{
+    database       = "name"
+    retention_days = 3
+  }]
 }
 
 variable "snowflake_firehose_user" {
@@ -36,7 +36,7 @@ variable "aws_firehose_public_key2" {
   description = "Secondary public key for authentication to Snowflake, Must be on 1 line without header and trailer"
   type        = string
   sensitive   = true
-default="not_set"
+  default     = "not_set"
 }
 
 variable "project_name" {
