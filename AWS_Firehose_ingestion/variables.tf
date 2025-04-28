@@ -11,22 +11,23 @@ variable "snowflake_firehose_ingestion_tables" {
 }
 
 variable "snowflake_firehose_ingestion_databases" {
-  type = map(string)
-  default = {
+  type = list(map(string))
+  default = [{
     database       = "value1"
     retention_days = "value2"
 
-  }
+  }]
 }
 variable "snowflake_firehose_user" {
   description = "Settings for warehouse that are used for the data ingestion process. "
-  type        = map(string)
-  default = {
+  type        = list(map(string))
+  default = [{
     name      = "value1"
     warehouse = "value2"
 
-  }
+  }]
 }
+
 variable "aws_firehose_public_key1" {
   description = "Primary public key for authentication to Snowflake, Must be on 1 line without header and trailer"
   type        = string
