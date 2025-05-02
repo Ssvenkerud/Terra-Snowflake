@@ -21,11 +21,12 @@ terraform {
 locals {
   firehose_ingestion_tables = flatten([
     for database_key, database in var.snowflake_firehose_ingestion_tables : [
-      for object_key, table in database : {
-        database_key = database_key
-        object_key   = object_key
-        table        = "${table}"
-      }
+      for object_key, table in database : [
+        for table_key in table : {
+          database_key = database_key
+          object_key   = object_key
+          table        = table_key
+      }]
     ]
   ])
 }
@@ -53,7 +54,7 @@ resource "snowflake_table" "aws_firehose_landing_tables" {
   for_each = { for index, sp in local.firehose_ingestion_tables : index => sp }
   database = "SOURCE_${each.value.database_key}"
   schema   = "LANDING"
-  name     = each.value.table[0]
+  name     = each.value.table
   column {
     name     = "data"
     type     = "VARIANT"
