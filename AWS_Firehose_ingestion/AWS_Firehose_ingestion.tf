@@ -51,7 +51,7 @@ resource "snowflake_schema" "aws_firehose_landing_schema" {
 
 resource "snowflake_table" "aws_firehose_landing_tables" {
   provider = snowflake.sysadmin
-  for_each = { for index, sp in local.firehose_ingestion_tables : index => sp }
+  for_each = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
   database = "SOURCE_${each.value.database_key}"
   schema   = "LANDING"
   name     = each.value.table
