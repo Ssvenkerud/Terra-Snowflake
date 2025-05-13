@@ -49,7 +49,26 @@ resource "snowflake_schema" "aws_firehose_landing_schema" {
   is_transient = true
 }
 
-resource "snowflake_table" "aws_firehose_landing_tables" {
+resource "snowflake_table" "aws_firehose_landing_table" {
+  provider = snowflake.sysadmin
+  for_each = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
+  database = "SOURCE_${each.value.database_key}"
+  schema   = "LANDING"
+  name     = "FIREHOSE"
+  column {
+    name     = "data"
+    type     = "VARIANT"
+    nullable = true
+  }
+  column {
+    name     = "metadata"
+    type     = "VARIANT"
+    nullable = true
+  }
+}
+
+
+resource "snowflake_table" "aws_firehose_source_tables" {
   provider = snowflake.sysadmin
   for_each = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
   database = "SOURCE_${each.value.database_key}"
