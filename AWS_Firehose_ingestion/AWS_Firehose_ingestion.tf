@@ -39,7 +39,13 @@ resource "snowflake_database" "prod_firehose_source_database" {
   comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
   data_retention_time_in_days = each.value.retention_days
 }
-
+resource "snowflake_database" "dev_firehose_source_database" {
+  provider                    = snowflake.sysadmin
+  for_each                    = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
+  name                        = "DEV_SOURCE_${each.value.database}"
+  comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
+  data_retention_time_in_days = each.value.retention_days
+}
 resource "snowflake_schema" "aws_firehose_landing_schema" {
   provider     = snowflake.sysadmin
   for_each     = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
@@ -56,26 +62,6 @@ resource "snowflake_table" "aws_firehose_landing_table" {
   schema   = "LANDING"
   name     = "FIREHOSE"
   column {
-    name     = "data"
-    type     = "VARIANT"
-    nullable = true
-  }
-  column {
-    name     = "metadata"
-    type     = "VARIANT"
-    nullable = true
-  }
-}
-
-
-resource "snowflake_table" "aws_firehose_source_tables" {
-  provider = snowflake.sysadmin
-  for_each = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
-  database = "SOURCE_${each.value.database_key}"
-
-  schema = "LANDING"
-  name   = each.value.table
-  column {
     name     = "content"
     type     = "VARIANT"
     nullable = true
@@ -86,6 +72,26 @@ resource "snowflake_table" "aws_firehose_source_tables" {
     nullable = true
   }
 }
+
+
+#resource "snowflake_table" "aws_firehose_source_tables" {
+#  provider = snowflake.sysadmin
+#  for_each = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
+#  database = "SOURCE_${each.value.database_key}"
+#
+#  schema = "LANDING"
+#  name   = each.value.table
+#  column {
+#    name     = "content"
+#    type     = "VARIANT"
+#    nullable = true
+#  }
+#  column {
+#    name     = "metadata"
+#    type     = "VARIANT"
+#    nullable = true
+#  }
+#}
 
 resource "snowflake_account_role" "ar_db_source_read" {
   provider = snowflake.securityadmin
