@@ -46,7 +46,7 @@ resource "snowflake_schema" "aws_firehose_landing_schema" {
   name         = "LANDING"
   database     = "SOURCE_${each.value.database}"
   comment      = "Schema containin the landing zone for data ingested via firehose for the source: ${each.value.database}"
-  is_transient = true
+  is_transient = false
 }
 
 resource "snowflake_table" "aws_firehose_landing_table" {
@@ -72,10 +72,11 @@ resource "snowflake_table" "aws_firehose_source_tables" {
   provider = snowflake.sysadmin
   for_each = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
   database = "SOURCE_${each.value.database_key}"
-  schema   = "LANDING"
-  name     = each.value.table
+
+  schema = "LANDING"
+  name   = each.value.table
   column {
-    name     = "data"
+    name     = "content"
     type     = "VARIANT"
     nullable = true
   }
