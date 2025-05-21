@@ -45,6 +45,7 @@ resource "snowflake_database" "dev_firehose_source_database" {
   name                        = "DEV_SOURCE_${each.value.database}"
   comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
   data_retention_time_in_days = each.value.retention_days
+
 }
 resource "snowflake_schema" "aws_firehose_landing_schema" {
   provider     = snowflake.sysadmin
@@ -53,6 +54,9 @@ resource "snowflake_schema" "aws_firehose_landing_schema" {
   database     = "SOURCE_${each.value.database}"
   comment      = "Schema containin the landing zone for data ingested via firehose for the source: ${each.value.database}"
   is_transient = false
+  depends_on = [
+    snowflake_database.prod_firehose_source_database,
+  ]
 }
 
 resource "snowflake_table" "aws_firehose_landing_table" {
@@ -71,6 +75,10 @@ resource "snowflake_table" "aws_firehose_landing_table" {
     type     = "VARIANT"
     nullable = true
   }
+  depends_on = [
+    snowflake_database.prod_firehose_source_database,
+    ssnowflake_schema.aws_firehose_landing_schema,
+  ]
 }
 
 
@@ -108,6 +116,21 @@ resource "snowflake_account_role" "ar_db_source_write" {
 
 }
 
+resource "snowflake_account_role" "dev_ar_db_source_read" {
+  provider = snowflake.securityadmin
+  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
+
+  name = "DEV_AR_DB_SOURCE_${each.key}_R"
+}
+
+resource "snowflake_account_role" "dev_ar_db_source_write" {
+  provider = snowflake.securityadmin
+  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
+
+  name = "DEV_AR_DB_SOURCE_${each.key}_W"
+
+}
+
 resource "snowflake_account_role" "loader_role" {
   provider = snowflake.securityadmin
   name     = "LOADER_${var.snowflake_firehose_user.name}"
@@ -141,7 +164,10 @@ resource "snowflake_task" "clone_source_to_dev" {
   }
   sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.database} CLONE SOURCE_${each.value.database}"
   depends_on = [
-    snowflake_database.prod_firehose_source_database
+    snowflake_database.prod_firehose_source_database,
+    ssnowflake_schema.aws_firehose_landing_schema,
+    ssnowflake_table.aws_firehose_landing_table,
+    snsnowflake_database.dev_firehose_source_database
   ]
 
 }
