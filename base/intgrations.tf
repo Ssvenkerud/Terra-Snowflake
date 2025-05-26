@@ -35,7 +35,7 @@ resource "snowflake_storage_integration" "s3_integration" {
   name                      = "s3_storage"
   comment                   = "This integration is purposfully left open, and the access limitation is done on the AWS IAM role."
   type                      = "EXTERNAL_STAGE"
-  storage_allowed_locations = "*"
+  storage_allowed_locations = ["*"]
   enabled                   = true
   storage_provider          = "S3"
   storage_aws_role_arn      = var.snowflake_aws_s3_integration_role
