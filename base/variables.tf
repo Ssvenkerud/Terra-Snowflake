@@ -159,6 +159,21 @@ variable "PERMIFROST_KEY" {
   sensitive   = true
 
 }
+variable "snowflake_aws_s3_integration" {
+  description = "Use a single database that acts as a presentation layer"
+  type        = bool
+
+  default = false
+}
+
+##################
+## Integrations ##
+##################
+
+variable "snowflake_aws_s3_integration_role" {
+  type    = string
+  default = ""
+}
 
 ####################
 ## DBT CLOUD setuo ##

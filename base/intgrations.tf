@@ -29,4 +29,15 @@ resource "snowflake_saml2_integration" "OKTA_SSO" {
   saml2_snowflake_issuer_url          = var.snowflake_issuer_url
 }
 
+resource "snowflake_storage_integration" "s3_integration" {
+  provider                  = snowflake.accountadmin
+  count                     = var.snowflake_aws_s3_integration ? 1 : 0
+  name                      = "s3_storage"
+  comment                   = "This integration is purposfully left open, and the access limitation is done on the AWS IAM role."
+  type                      = "EXTERNAL_STAGE"
+  storage_allowed_locations = "*"
+  enabled                   = true
+  storage_provider          = "S3"
+  storage_aws_role_arn      = var.snowflake_aws_s3_integration_role
 
+}
