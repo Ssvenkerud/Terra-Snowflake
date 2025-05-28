@@ -1,7 +1,7 @@
 
 
 variable "snowflake_s3_sources" {
-  type = list(map())
+  type = list(map(string))
   default = [{
     "source" : "eir",
     "s3_location" : "s3://com.example.bucket/prefix"
