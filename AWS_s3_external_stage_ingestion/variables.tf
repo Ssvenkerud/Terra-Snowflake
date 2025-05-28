@@ -5,6 +5,6 @@ variable "snowflake_s3_sources" {
   default = [{
     source : "eir",
     s3_location : "s3://com.example.bucket/prefix"
-    retention_days = "value2"
+    data_retention_days = "value2"
   }]
 }
