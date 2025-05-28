@@ -44,7 +44,7 @@ resource "snowflake_database" "dev_firehose_source_database" {
   for_each                    = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
   name                        = "DEV_SOURCE_${each.value.database}"
   comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
-  data_retention_time_in_days = each.value.retention_days
+  data_retention_time_in_days = 1
 
 }
 resource "snowflake_schema" "aws_firehose_landing_schema" {
@@ -77,7 +77,7 @@ resource "snowflake_table" "aws_firehose_landing_table" {
   }
   depends_on = [
     snowflake_database.prod_firehose_source_database,
-    ssnowflake_schema.aws_firehose_landing_schema,
+    snowflake_schema.aws_firehose_landing_schema,
   ]
 }
 
@@ -165,9 +165,9 @@ resource "snowflake_task" "clone_source_to_dev" {
   sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.database} CLONE SOURCE_${each.value.database}"
   depends_on = [
     snowflake_database.prod_firehose_source_database,
-    ssnowflake_schema.aws_firehose_landing_schema,
-    ssnowflake_table.aws_firehose_landing_table,
-    snsnowflake_database.dev_firehose_source_database
+    snowflake_schema.aws_firehose_landing_schema,
+    snowflake_table.aws_firehose_landing_table,
+    snowflake_database.dev_firehose_source_database
   ]
 
 }

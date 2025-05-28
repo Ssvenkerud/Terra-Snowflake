@@ -43,9 +43,9 @@ resource "snowflake_schema" "s3_landing_landing_schema" {
 resource "snowflake_stage" "S3_ingestion_stage" {
   provider            = snowflake.accountadmin
   for_each            = { for db in var.snowflake_s3_sources : db.source => db }
-  name                = "SOURCE_STAGE_${var.each.value.source}"
-  url                 = var.each.value.s3_location
-  database            = "SOURCE_${var.each.value.source}"
+  name                = "SOURCE_STAGE_${each.value.source}"
+  url                 = each.value.s3_location
+  database            = "SOURCE_${each.value.source}"
   schema              = "LANDING"
   storage_integration = "s3_storage"
 
