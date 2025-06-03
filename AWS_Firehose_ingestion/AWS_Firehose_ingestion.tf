@@ -39,14 +39,7 @@ resource "snowflake_database" "prod_firehose_source_database" {
   comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
   data_retention_time_in_days = each.value.retention_days
 }
-resource "snowflake_database" "dev_firehose_source_database" {
-  provider                    = snowflake.sysadmin
-  for_each                    = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-  name                        = "DEV_SOURCE_${each.value.database}"
-  comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
-  data_retention_time_in_days = 1
 
-}
 resource "snowflake_schema" "aws_firehose_landing_schema" {
   provider     = snowflake.sysadmin
   for_each     = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
