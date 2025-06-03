@@ -2,10 +2,10 @@ variable "snowflake_firehose_ingestion_tables" {
   type = map(map(list(string)))
   default = {
     test_db = {
-      "Tables" = ["test_tbl", "tbl_two"]
+      "60 minutes" = ["test_tbl", "tbl_two"]
     }
     test_db2 = {
-      "Tables" = ["test_tbl", "tbl_two"]
+      "60 minutes" = ["test_tbl", "tbl_two"]
     }
   }
 }

@@ -24,7 +24,7 @@ locals {
       for object_key, table in database : [
         for table_key in table : {
           database_key = database_key
-          object_key   = object_key
+          refresh_key  = object_key
           table        = table_key
       }]
     ]
@@ -58,7 +58,17 @@ resource "snowflake_schema" "aws_firehose_landing_schema" {
     snowflake_database.prod_firehose_source_database,
   ]
 }
-
+resource "snowflake_schema" "aws_firehose_confomrmed_schema" {
+  provider     = snowflake.sysadmin
+  for_each     = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
+  name         = "CONFORMED"
+  database     = "SOURCE_${each.value.database}"
+  comment      = "Schema containin the landing zone for data ingested via firehose for the source: ${each.value.database}"
+  is_transient = false
+  depends_on = [
+    snowflake_database.prod_firehose_source_database,
+  ]
+}
 resource "snowflake_table" "aws_firehose_landing_table" {
   provider = snowflake.sysadmin
   for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
@@ -81,25 +91,25 @@ resource "snowflake_table" "aws_firehose_landing_table" {
   ]
 }
 
+resource "snowflake_dynamic_table" "Firehose_conformed_tables" {
+  provider     = snowflake.sysadmin
+  for_each     = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
+  refresh_mode = "AUTO"
+  name         = each.value.table
+  database     = "SOURCE_${each.value.database_key}"
+  schema       = "LANDING"
+  target_lag {
+    maximum_duration = each.value.refresh_key
+  }
+  warehouse = "LOADING_DATA_${var.snowflake_firehose_user.warehouse}"
+  query     = "SELECT  \"content\":data FROM SOURCE_${each.value.database_key}.LANDING.FIREHOSE WHERE (\"content\":metadata:\"table-name\" == ${each.value.table})"
+  comment   = "Automatic conformation of tables ingested by Firehose."
 
-#resource "snowflake_table" "aws_firehose_source_tables" {
-#  provider = snowflake.sysadmin
-#  for_each = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
-#  database = "SOURCE_${each.value.database_key}"
-#
-#  schema = "LANDING"
-#  name   = each.value.table
-#  column {
-#    name     = "content"
-#    type     = "VARIANT"
-#    nullable = true
-#  }
-#  column {
-#    name     = "metadata"
-#    type     = "VARIANT"
-#    nullable = true
-#  }
-#}
+  depends_on = [
+    snowflake_database.prod_firehose_source_database,
+    snowflake_schema.aws_firehose_confomrmed_schema,
+  ]
+}
 
 resource "snowflake_account_role" "ar_db_source_read" {
   provider = snowflake.securityadmin
@@ -113,21 +123,6 @@ resource "snowflake_account_role" "ar_db_source_write" {
   for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
 
   name = "AR_DB_SOURCE_${each.key}_W"
-
-}
-
-resource "snowflake_account_role" "dev_ar_db_source_read" {
-  provider = snowflake.securityadmin
-  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-
-  name = "DEV_AR_DB_SOURCE_${each.key}_R"
-}
-
-resource "snowflake_account_role" "dev_ar_db_source_write" {
-  provider = snowflake.securityadmin
-  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-
-  name = "DEV_AR_DB_SOURCE_${each.key}_W"
 
 }
 
@@ -151,23 +146,4 @@ resource "snowflake_service_user" "sys_aws_firehouse_loader" {
 }
 
 
-resource "snowflake_task" "clone_source_to_dev" {
-  provider  = snowflake.accountadmin
-  for_each  = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-  database  = "SYSTEM"
-  schema    = "DEV_CLONES"
-  name      = "Clone_${each.value.database}_to_prod"
-  warehouse = "DATA_LOADER_FIREHOSE"
-  started   = true
-  schedule {
-    using_cron = each.value.clone_frequency_cron
-  }
-  sql_statement = "CREATE OR REPLACE DATABASE DEV_SOURCE_${each.value.database} CLONE SOURCE_${each.value.database}"
-  depends_on = [
-    snowflake_database.prod_firehose_source_database,
-    snowflake_schema.aws_firehose_landing_schema,
-    snowflake_table.aws_firehose_landing_table,
-    snowflake_database.dev_firehose_source_database
-  ]
 
-}
