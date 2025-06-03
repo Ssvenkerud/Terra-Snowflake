@@ -47,7 +47,7 @@ resource "snowflake_stage" "S3_ingestion_stage" {
   url                 = each.value.s3_location
   database            = "SOURCE_${each.value.source}"
   schema              = "LANDING"
-  storage_integration = "s3_storage"
+  storage_integration = "S3_STORAGE"
 
 }
 
