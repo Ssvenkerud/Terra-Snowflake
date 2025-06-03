@@ -102,7 +102,7 @@ resource "snowflake_dynamic_table" "Firehose_conformed_tables" {
     maximum_duration = each.value.refresh_key
   }
   warehouse = var.snowflake_firehose_user.warehouse
-  query     = "SELECT  \"content\":data FROM SOURCE_${each.value.database_key}.LANDING.FIREHOSE WHERE (\"content\":metadata:\"table-name\" =  '${each.value.table})'"
+  query     = "SELECT  \"content\":data FROM SOURCE_${each.value.database_key}.LANDING.FIREHOSE WHERE (\"content\":metadata:\"table-name\" =  '${each.value.table}')"
   comment   = "Automatic conformation of tables ingested by Firehose."
 
   depends_on = [
