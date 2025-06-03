@@ -152,7 +152,7 @@ resource "snowflake_service_user" "sys_aws_firehouse_loader" {
 
 
 resource "snowflake_task" "clone_source_to_dev" {
-  provider  = snowflake.sysadmin
+  provider  = snowflake.accountadmin
   for_each  = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
   database  = "SYSTEM"
   schema    = "DEV_CLONES"
