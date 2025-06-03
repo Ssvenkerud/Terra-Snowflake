@@ -70,11 +70,12 @@ resource "snowflake_schema" "aws_firehose_confomrmed_schema" {
   ]
 }
 resource "snowflake_table" "aws_firehose_landing_table" {
-  provider = snowflake.sysadmin
-  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-  database = "SOURCE_${each.value.database}"
-  schema   = "LANDING"
-  name     = "FIREHOSE"
+  provider        = snowflake.sysadmin
+  for_each        = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
+  change_tracking = true
+  database        = "SOURCE_${each.value.database}"
+  schema          = "LANDING"
+  name            = "FIREHOSE"
   column {
     name     = "content"
     type     = "VARIANT"
