@@ -89,7 +89,7 @@ resource "snowflake_dynamic_table" "Firehose_conformed_tables" {
   provider     = snowflake.sysadmin
   for_each     = { for sp in local.firehose_ingestion_tables : join("_", [sp.database_key, sp.table]) => sp }
   refresh_mode = "AUTO"
-  name         = each.value.table
+  name         = upper(each.value.table)
   database     = "SOURCE_${each.value.database_key}"
   schema       = "LANDING"
   target_lag {
