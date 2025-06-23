@@ -335,7 +335,9 @@ variable "snowflake_additional_roles" {
 ############
 
 variable "snowfake_outgoing_share" {
-  type    = list(map())
-  default = []
+  type = list(object({
+    name              = string
+    outgoing_accounts = list(string)
+  }))
 }
 

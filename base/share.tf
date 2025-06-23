@@ -6,14 +6,6 @@ resource "snowflake_share" "outgoing_share" {
   depends_on = [snowflake_database.outgoing_share_database]
 }
 
-variable "snowfake_outgoing_share" {
-  type = list(map())
-  default = [{
-    name              = "",
-    outgoing_accounts = []
-  }]
-}
-
 resource "snowflake_database" "outgoing_share_database" {
   provider = snowflake.accountadmin
   for_each = { for share in var.snowfake_outgoing_share : share.name => share }
