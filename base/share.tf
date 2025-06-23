@@ -14,8 +14,9 @@ resource "snowflake_database" "outgoing_share_database" {
 
 resource "snowflake_grant_privileges_to_share" "outgoing_share_grant" {
   provider    = snowflake.securityadmin
-  to_share    = snowflake_share.outgoing_share
+  for_each    = { for share in var.snowfake_outgoing_share : share.name => share }
+  to_share    = snowflake_share.outgoing_share[each.value.name]
   privileges  = ["USAGE"]
-  on_database = snowflake_database.outgoing_share_database.name
+  on_database = snowflake_database.outgoing_share_database[each.value.name].name
   depends_on  = [snowflake_database.outgoing_share_database, snowflake_share.outgoing_share]
 }
