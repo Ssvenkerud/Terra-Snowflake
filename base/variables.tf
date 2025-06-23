@@ -330,4 +330,12 @@ variable "snowflake_additional_roles" {
   default     = []
 }
 
+############
+## SHARES ## 
+############
+
+variable "snowfake_outgoing_share" {
+  type    = list(map())
+  default = []
+}
 
