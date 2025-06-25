@@ -54,7 +54,7 @@ resource "snowflake_schema" "aws_firehose_landing_schema" {
 resource "snowflake_schema" "aws_firehose_confomrmed_schema" {
   provider     = snowflake.sysadmin
   for_each     = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-  name         = "CONFORMED"
+  name         = "STAGING"
   database     = "SOURCE_${each.value.database}"
   comment      = "Schema containin the landing zone for data ingested via firehose for the source: ${each.value.database}"
   is_transient = false
