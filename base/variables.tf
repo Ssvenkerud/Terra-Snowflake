@@ -175,6 +175,12 @@ variable "snowflake_aws_s3_integration_role" {
   default = ""
 }
 
+variable "snowflake_powerbi_oauth" {
+  description = "whether to enable external oauth for PowerBi"
+  type        = bool
+
+  default = false
+}
 variable "snowflake_powerbi_issuer" {
   type        = string
   description = "This variagle holds the issuer string for the entraId IdP"

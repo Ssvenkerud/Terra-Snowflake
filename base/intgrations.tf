@@ -14,7 +14,7 @@ resource "snowflake_oauth_integration_for_custom_clients" "dbt_cloud" {
 
 resource "snowflake_external_oauth_integration" "powerbi_external_oauth" {
   provider = snowflake.accountadmin
-  count    = var.snowflake_powerbi_issuer ? 1 : 0
+  count    = var.snowflake_powerbi_oauth ? 1 : 0
 
   comment                                         = "Security integration that allows for PowerBI conecction to data products."
   enabled                                         = true
