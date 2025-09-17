@@ -175,6 +175,17 @@ variable "snowflake_aws_s3_integration_role" {
   default = ""
 }
 
+variable "snowflake_powerbi_issuer" {
+  type        = string
+  description = "This variagle holds the issuer string for the entraId IdP"
+  default     = ""
+}
+variable "snowflake_powerbi_allowed_roles" {
+  description = "list of roles that can be used to access snowflake from PowerBI"
+  type        = list(string)
+  default     = []
+}
+
 ####################
 ## DBT CLOUD setuo ##
 #####################

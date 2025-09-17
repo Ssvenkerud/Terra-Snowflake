@@ -12,6 +12,21 @@ resource "snowflake_oauth_integration_for_custom_clients" "dbt_cloud" {
 }
 
 
+resource "snowflake_external_oauth_integration" "powerbi_external_oauth" {
+  provider = snowflake.accountadmin
+  count    = var.snowflake_powerbi_enable ? 1 : 0
+
+  comment                                         = "Security integration that allows for PowerBI conecction to data products."
+  enabled                                         = true
+  external_oauth_any_role_mode                    = "DISABLE"
+  external_oauth_issuer                           = var.snowflake_powerbi_issuer
+  external_oauth_snowflake_user_mapping_attribute = "LOGIN_NAME"
+  external_oauth_token_user_mapping_claim         = ["upn"]
+  name                                            = "Powerbi_exteranl_oauth"
+  external_oauth_type                             = "AZURE"
+  external_oauth_allowed_roles_list               = var.snowflake_powerbi_allowed_roles
+}
+
 resource "snowflake_saml2_integration" "OKTA_SSO" {
   provider                            = snowflake.accountadmin
   count                               = var.snowflake_okta_sso_setup ? 1 : 0
