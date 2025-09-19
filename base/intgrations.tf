@@ -23,7 +23,7 @@ resource "snowflake_external_oauth_integration" "powerbi_external_oauth" {
   external_oauth_snowflake_user_mapping_attribute = "LOGIN_NAME"
   external_oauth_token_user_mapping_claim         = ["upn"]
   external_oauth_jws_keys_url                     = "https://login.windows.net/common/discovery/keys"
-  external_oauth_audience_list                    = ["https://analysis.windows.net/powerbi/connector/Snowflake", "https://analysis.windows.net/powerbi/connector/snowflake"]
+  external_oauth_audience_list                    = ["https://analysis.windows.net/powerbi/connector/Snowflake"]
   name                                            = "Powerbi_exteranl_oauth"
   external_oauth_type                             = "AZURE"
   external_oauth_allowed_roles_list               = var.snowflake_powerbi_allowed_roles
