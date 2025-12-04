@@ -30,7 +30,7 @@ resource "snowflake_stage" "S3_ingestion_stage" {
 resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_usage" {
   provider          = snowflake.accountadmin
   for_each          = { for db in var.snowflake_s3_sources : db.source => db }
-  privlages         = ["USAGE"]
+  privileges        = ["USAGE"]
   account_role_name = "AR_DB_SOURCE_${each.value.source}_R"
 
   on_schema_object {
@@ -48,7 +48,7 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_select" {
   provider          = snowflake.accountadmin
   for_each          = { for db in var.snowflake_s3_sources : db.source => db }
-  privlages         = ["SELECT"]
+  privileges        = ["SELECT"]
   account_role_name = "AR_DB_SOURCE_${each.value.source}_R"
 
   on_schema_object {
@@ -66,7 +66,7 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_create" {
   provider          = snowflake.accountadmin
   for_each          = { for db in var.snowflake_s3_sources : db.source => db }
-  privlages         = ["CREATE"]
+  privileges        = ["CREATE"]
   account_role_name = "AR_DB_SOURCE_${each.value.source}_W"
 
   on_schema {
