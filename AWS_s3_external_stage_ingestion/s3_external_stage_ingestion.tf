@@ -35,7 +35,7 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 
   on_schema_object {
     all {
-      object_type_plural = "STAGE"
+      object_type_plural = "STAGES"
       in_schema          = "SOURCE_${each.value.source}.LANDING"
     }
   }
@@ -49,7 +49,7 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 
   on_schema_object {
     future {
-      object_type_plural = "STAGE"
+      object_type_plural = "STAGES"
       in_schema          = "SOURCE_${each.value.source}.LANDING"
     }
   }
@@ -63,7 +63,7 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 
   on_schema_object {
     all {
-      object_type_plural = "EXTERNAL TABLE"
+      object_type_plural = "EXTERNAL TABLES"
       in_schema          = "SOURCE_${each.value.source}.LANDING"
     }
   }
@@ -77,7 +77,7 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 
   on_schema_object {
     future {
-      object_type_plural = "EXTERNAL TABLE"
+      object_type_plural = "EXTERNAL TABLES"
       in_schema          = "SOURCE_${each.value.source}.LANDING"
     }
   }
