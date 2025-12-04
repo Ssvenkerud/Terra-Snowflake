@@ -67,6 +67,7 @@ resource "snowflake_service_user" "snowflake_service_users" {
   disabled             = "false"
   display_name         = "SYS_${each.value.name}"
   abort_detached_query = "true"
+  rsa_public_key       = each.value.pub_key
 }
 
 

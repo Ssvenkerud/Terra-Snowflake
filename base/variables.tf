@@ -365,8 +365,10 @@ variable "snowfake_outgoing_share" {
 
 variable "snowflake_sys_user" {
   description = "Dedicated system users that are not attached to dedicated processes."
+  sensitive   = true
   type = list(object({
-    name = string #must remain unchanged
+    name    = string #must remain unchanged
+    pub_key = string
   }))
   default = []
 }
