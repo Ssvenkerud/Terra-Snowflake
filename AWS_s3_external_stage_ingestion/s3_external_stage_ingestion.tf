@@ -27,7 +27,21 @@ resource "snowflake_stage" "S3_ingestion_stage" {
 
 }
 
-resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_usage" {
+resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_usage_all" {
+  provider          = snowflake.accountadmin
+  for_each          = { for db in var.snowflake_s3_sources : db.source => db }
+  privileges        = ["USAGE"]
+  account_role_name = "AR_DB_SOURCE_${each.value.source}_R"
+
+  on_schema_object {
+    all {
+      object_type_plural = "STAGE"
+      in_schema          = "SOURCE_${each.value.source}.LANDING"
+    }
+  }
+}
+
+resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_usage_future" {
   provider          = snowflake.accountadmin
   for_each          = { for db in var.snowflake_s3_sources : db.source => db }
   privileges        = ["USAGE"]
@@ -38,14 +52,24 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
       object_type_plural = "STAGE"
       in_schema          = "SOURCE_${each.value.source}.LANDING"
     }
+  }
+}
+
+resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_select_all" {
+  provider          = snowflake.accountadmin
+  for_each          = { for db in var.snowflake_s3_sources : db.source => db }
+  privileges        = ["SELECT"]
+  account_role_name = "AR_DB_SOURCE_${each.value.source}_R"
+
+  on_schema_object {
     all {
-      object_type_plural = "STAGE"
+      object_type_plural = "EXTERNAL TABLE"
       in_schema          = "SOURCE_${each.value.source}.LANDING"
     }
   }
 }
 
-resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_select" {
+resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_select_future" {
   provider          = snowflake.accountadmin
   for_each          = { for db in var.snowflake_s3_sources : db.source => db }
   privileges        = ["SELECT"]
@@ -53,10 +77,6 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 
   on_schema_object {
     future {
-      object_type_plural = "EXTERNAL TABLE"
-      in_schema          = "SOURCE_${each.value.source}.LANDING"
-    }
-    all {
       object_type_plural = "EXTERNAL TABLE"
       in_schema          = "SOURCE_${each.value.source}.LANDING"
     }
