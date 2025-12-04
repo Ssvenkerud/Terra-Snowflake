@@ -358,3 +358,15 @@ variable "snowfake_outgoing_share" {
   }))
 }
 
+
+##################
+## SYSTEM USERS ##
+##################
+
+variable "snowflake_sys_user" {
+  description = "Dedicated system users that are not attached to dedicated processes."
+  type = list(object({
+    name = string #must remain unchanged
+  }))
+  default = []
+}

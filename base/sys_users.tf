@@ -58,4 +58,15 @@ resource "snowflake_grant_account_role" "Permifrost_grant" {
   user_name = snowflake_user.sys_permifrost_user[0].name
 }
 
+resource "snowflake_service_user" "snowflake_service_users" {
+  provider             = snowflake.useradmin
+  for_each             = { for user in var.snowflake_sys_user : user.name => user }
+  name                 = "SYS_${each.value.name}"
+  login_name           = "SYS_${each.value.name}"
+  comment              = "A Terraform controlled system user"
+  disabled             = "false"
+  display_name         = "SYS_${each.value.name}"
+  abort_detached_query = "true"
+}
+
 
