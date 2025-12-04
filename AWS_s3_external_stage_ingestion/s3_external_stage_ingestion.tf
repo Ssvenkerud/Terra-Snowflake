@@ -86,7 +86,7 @@ resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_
 resource "snowflake_grant_privileges_to_account_role" "snowflake_external_stage_create" {
   provider          = snowflake.accountadmin
   for_each          = { for db in var.snowflake_s3_sources : db.source => db }
-  privileges        = ["CREATE"]
+  privileges        = ["CREATE EXTERNAL TABLE"]
   account_role_name = "AR_DB_SOURCE_${each.value.source}_W"
 
   on_schema {
