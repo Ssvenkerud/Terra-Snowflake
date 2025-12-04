@@ -140,4 +140,30 @@ resource "snowflake_service_user" "sys_aws_firehouse_loader" {
 }
 
 
+resource "snowflake_grant_privileges_to_account_role" "snowflake_dynamic_table_select_all" {
+  provider          = snowflake.accountadmin
+  for_each          = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
+  privileges        = ["SELECT"]
+  account_role_name = "AR_DB_SOURCE_${each.key}_R"
 
+  on_schema_object {
+    all {
+      object_type_plural = "DYNAMIC TABLES"
+      in_schema          = "SOURCE_${each.key}.LANDING"
+    }
+  }
+}
+
+resource "snowflake_grant_privileges_to_account_role" "snowflake_dynamic_table_select_future" {
+  provider          = snowflake.accountadmin
+  for_each          = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
+  privileges        = ["SELECT"]
+  account_role_name = "AR_DB_SOURCE_${each.key}_R"
+
+  on_schema_object {
+    future {
+      object_type_plural = "DYNAMIC TABLES"
+      in_schema          = "SOURCE_${each.key}.LANDING"
+    }
+  }
+}
