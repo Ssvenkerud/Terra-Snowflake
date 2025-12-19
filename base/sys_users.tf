@@ -14,11 +14,12 @@ resource "snowflake_service_user" "sys_loader" {
 
 
 resource "snowflake_service_user" "sys_dbt_user" {
-  provider   = snowflake.useradmin
-  count      = var.snowflake_dbt_enabled ? 1 : 0
-  name       = "SYS_DBT_${var.project_name}"
-  login_name = "SYS_DBT_${var.project_name}"
-  comment    = "system user for data loading"
+  provider       = snowflake.useradmin
+  count          = var.snowflake_dbt_enabled ? 1 : 0
+  name           = "SYS_DBT_${var.project_name}"
+  login_name     = "SYS_DBT_${var.project_name}"
+  comment        = "system user for data loading"
+  rsa_public_key = var.dbt_sys_pub_key
   #abort_detached_query = true
   #client_session_keep_alive = false
   #disable_mfa = true

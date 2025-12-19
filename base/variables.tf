@@ -363,6 +363,13 @@ variable "snowfake_outgoing_share" {
 ## SYSTEM USERS ##
 ##################
 
+variable "dbt_sys_pub_key" {
+  type        = string
+  sensitive   = true
+  description = "String containing the public key for the DBT system user"
+  default     = ""
+}
+
 variable "snowflake_sys_user" {
   description = "Dedicated system users that are not attached to dedicated processes."
   type = list(object({
