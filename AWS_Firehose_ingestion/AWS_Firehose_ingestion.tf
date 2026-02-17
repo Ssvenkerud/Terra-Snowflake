@@ -32,25 +32,6 @@ locals {
 }
 
 
-resource "snowflake_database" "prod_firehose_source_database" {
-  provider                    = snowflake.sysadmin
-  for_each                    = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-  name                        = "SOURCE_${each.value.database}"
-  comment                     = "Soucrce data base fed by AWS Firehouse for ingestion"
-  data_retention_time_in_days = each.value.retention_days
-}
-
-resource "snowflake_schema" "aws_firehose_landing_schema" {
-  provider     = snowflake.sysadmin
-  for_each     = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-  name         = "LANDING"
-  database     = "SOURCE_${each.value.database}"
-  comment      = "Schema containin the landing zone for data ingested via firehose for the source: ${each.value.database}"
-  is_transient = false
-  depends_on = [
-    snowflake_database.prod_firehose_source_database,
-  ]
-}
 resource "snowflake_schema" "aws_firehose_confomrmed_schema" {
   provider     = snowflake.sysadmin
   for_each     = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
@@ -58,9 +39,6 @@ resource "snowflake_schema" "aws_firehose_confomrmed_schema" {
   database     = "SOURCE_${each.value.database}"
   comment      = "Schema containin the landing zone for data ingested via firehose for the source: ${each.value.database}"
   is_transient = false
-  depends_on = [
-    snowflake_database.prod_firehose_source_database,
-  ]
 }
 resource "snowflake_table" "aws_firehose_landing_table" {
   provider        = snowflake.sysadmin
@@ -79,10 +57,6 @@ resource "snowflake_table" "aws_firehose_landing_table" {
     type     = "VARIANT"
     nullable = true
   }
-  depends_on = [
-    snowflake_database.prod_firehose_source_database,
-    snowflake_schema.aws_firehose_landing_schema,
-  ]
 }
 
 resource "snowflake_dynamic_table" "Firehose_conformed_tables" {
@@ -100,25 +74,10 @@ resource "snowflake_dynamic_table" "Firehose_conformed_tables" {
   comment   = "Automatic conformation of tables ingested by Firehose."
 
   depends_on = [
-    snowflake_database.prod_firehose_source_database,
     snowflake_schema.aws_firehose_confomrmed_schema,
   ]
 }
 
-resource "snowflake_account_role" "ar_db_source_read" {
-  provider = snowflake.securityadmin
-  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-
-  name = "AR_DB_SOURCE_${each.key}_R"
-}
-
-resource "snowflake_account_role" "ar_db_source_write" {
-  provider = snowflake.securityadmin
-  for_each = { for db in var.snowflake_firehose_ingestion_databases : db.database => db }
-
-  name = "AR_DB_SOURCE_${each.key}_W"
-
-}
 
 resource "snowflake_account_role" "loader_role" {
   provider = snowflake.securityadmin
