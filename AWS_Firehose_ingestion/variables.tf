@@ -15,7 +15,6 @@ variable "snowflake_firehose_ingestion_databases" {
   default = [{
     database             = "value1"
     retention_days       = "value2"
-    clone_frequency_cron = "* * 7 * *"
   }]
 }
 variable "snowflake_firehose_user" {
