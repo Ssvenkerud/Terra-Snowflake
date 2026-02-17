@@ -14,7 +14,6 @@ variable "snowflake_firehose_ingestion_databases" {
   type = list(map(string))
   default = [{
     database             = "value1"
-    retention_days       = "value2"
   }]
 }
 variable "snowflake_firehose_user" {
