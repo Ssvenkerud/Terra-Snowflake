@@ -46,6 +46,26 @@ resource "snowflake_saml2_integration" "OKTA_SSO" {
   saml2_snowflake_issuer_url          = var.snowflake_issuer_url
 }
 
+resource "snowflake_external_oauth_integration" "custom_external_oauth_integration" {
+provider = snowflake.accountadmin
+
+  for_each     = { for integration in var.snowflake_custom_external_oauth_integration : integration.name => integration }
+  name     = "${each.value.name}"
+
+
+  comment                                         = "Custom Oauth integrations for snowflake to be used with external provider for ${each.value.name}."
+  enabled                                         = true
+  external_oauth_any_role_mode                    = "ENABLE"
+  external_oauth_audience_list                    = each.value.external_oauth_audience_list
+  external_oauth_blocked_roles_list               = [snowflake_role.one.fully_qualified_name]
+  external_oauth_issuer                           = each.value.external_oauth_issuer
+  external_oauth_rsa_public_key                   = each.value.external_oauth_rsa_public_key
+  external_oauth_scope_mapping_attribute          = "scope"
+  external_oauth_snowflake_user_mapping_attribute = "LOGIN_NAME"
+  external_oauth_token_user_mapping_claim         = ["upn"]
+  external_oauth_type                             = "CUSTOM"
+}
+
 #resource "snowflake_storage_integration" "s3_integration" {
 #  provider                  = snowflake.accountadmin
 #  count                     = var.snowflake_aws_s3_integration ? 1 : 0

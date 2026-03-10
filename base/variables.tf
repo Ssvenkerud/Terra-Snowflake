@@ -192,6 +192,18 @@ variable "snowflake_powerbi_allowed_roles" {
   default     = []
 }
 
+variable "snowflake_custom_external_oauth_integration" {
+type = list(object({
+    name                 = string
+external_oauth_audience_list = list(string)
+external_oauth_issuer = string
+external_oauth_rsa_public_key = string
+
+  }))
+  default = []
+
+}
+
 ####################
 ## DBT CLOUD setuo ##
 #####################
