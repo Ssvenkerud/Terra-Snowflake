@@ -402,11 +402,11 @@ variable "snowflake_sys_user" {
 }
 
 variable "snowflake_custom_sysuser" {
-    type = list(object{
+    type = list(object({
       name = string
       default_warehouse = string
       default_role = string
       pub_key = string
-    })
+    }))
    default =   []
 }
