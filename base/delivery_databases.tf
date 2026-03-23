@@ -17,7 +17,7 @@ resource "snowflake_database" "dev_delivery_database" {
 resource "snowflake_database" "extra_database" {
   provider                    = snowflake.sysadmin
   for_each                    = { for db in var.snowflake_extra_databases : db.name => db }
-  name                        = "${each.value.name}"
+  name                        = each.value.name
   comment                     = "additional custom named databases"
   data_retention_time_in_days = each.value.data_retention_days
 }
