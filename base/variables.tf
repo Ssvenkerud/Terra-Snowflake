@@ -269,6 +269,17 @@ variable "snowflake_delivery_databases" {
   default = []
 }
 
+variable "snowflake_extra_databases" {
+  description = "Contains a list of additional Domain databases that are linked to the particular project. Here the full name needs to be given, as there is no automation on naming. This also creatyes both Dev and Pros databases."
+  type = list(object({
+    name                = string
+    data_retention_days = string
+    project_tag         = string
+
+  }))
+  default = []
+}
+
 #########################
 ## warehouse variables ##
 #########################
@@ -388,4 +399,14 @@ variable "snowflake_sys_user" {
     pub_key = string
   }))
   default = []
+}
+
+variable "snowflake_custom_sysuser" {
+    type = list(object{
+      name = string
+      default_warehouse = string
+      default_role = string
+      pub_key = string
+    })
+   default =   []
 }
